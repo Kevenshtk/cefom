@@ -1,12 +1,6 @@
 import { Link } from 'react-router-dom';
 
-import type { DropdownItem } from '../Header/contentBtnHeader';
-
-type DropdownProps = {
-  items: DropdownItem[];
-};
-
-const Dropdown = ({ items }: DropdownProps) => {
+const Dropdown = ({ items }) => {
   return (
     <div>
       <ul>

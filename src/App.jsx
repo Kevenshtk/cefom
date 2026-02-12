@@ -1,6 +1,6 @@
 import { BrowserRouter as Router } from 'react-router-dom';
 
-import MainRoutes from './routes.tsx';
+import MainRoutes from './routes.jsx';
 
 import './App.css';
 import Header from './components/Header';
