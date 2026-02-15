@@ -1,10 +1,9 @@
 import { Link } from 'react-router-dom';
 
-const Table = ({ data, action }) => {
-  if (!data) return null;
+const Table = ({ data, del }) => {
   
-  if (data.status !== 200) {
-    return <p>{data.message || 'Erro ao carregar dados.'}</p>;
+  if (!data) {
+    return <p>{'Erro ao carregar dados.'}</p>;
   }
 
   return (
@@ -17,11 +16,15 @@ const Table = ({ data, action }) => {
         </tr>
       </thead>
       <tbody>
-        {data.data?.map((item) => (
+        {data?.map((item) => (
           <tr key={item.idTerritorio}>
             <td>{item.idTerritorio}</td>
             <td>{item.territorio}</td>
-            <td><Link to={`/territorios/detalhes/${item.idTerritorio}`}>Detalhes</Link></td>
+            <td>
+              <Link to={`/territorios/detalhes/${item.idTerritorio}`}>Detalhes</Link>
+              <Link to={`/territorios/atualizar/${item.idTerritorio}`}>Editar</Link>
+              <button onClick={() => del(item.idTerritorio)}>Deletar</button>
+              </td>
           </tr>
         ))}
       </tbody>
