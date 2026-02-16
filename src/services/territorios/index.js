@@ -1,78 +1,68 @@
 import api from '../api';
 
-const territirioServices = {
-  get: () => getTerritorios(),
-  getById: (id) => getTerritorioById(id),
-  add: (datas) => addTerritorio(datas),
-  put: (id, datas) => putTerritorio(id, datas),
-  del: (id) => deleleTerritorio(id),
-};
+const handleError = (error, defaultMessage) => ({
+  success: false,
+  message: error.response?.data?.message || defaultMessage,
+});
 
 const getTerritorios = async () => {
   try {
     const response = await api.get('/territorios');
-    return { status: response.status, data: response.data.content };
+    return { success: true, data: response.data.content };
   } catch (error) {
-    return {
-      status: error.response?.status || 500,
-      message: error.response?.data?.message || 'Erro ao buscar territirios',
-    };
+    return handleError(error, 'Erro ao buscar territórios');
   }
 };
 
 const getTerritorioById = async (id) => {
   try {
     const response = await api.get(`/territorios/${id}`);
-    return { status: response.status, data: response.data };
+    return { success: true, data: response.data };
   } catch (error) {
-    return {
-      status: error.response?.status || 500,
-      message: error.response?.data?.message || 'Erro ao buscar territirio',
-    };
+    return handleError(error, 'Erro ao buscar território');
   }
 };
 
 const addTerritorio = async (datas) => {
   try {
-    const response = await api.post('/territorios', {
+    await api.post('/territorios', {
       territorio: datas,
     });
 
-    return { status: response.status };
+    return { success: true };
   } catch (error) {
-    return {
-      status: error.response?.status || 500,
-      message: error.response?.data?.message || 'Erro ao adicionar territirios',
-    };
+      return handleError(error, 'Erro ao adicionar território');
   }
 };
 
 const putTerritorio = async (id, datas) => {
   try {
-    const response = await api.put(`territorios/${id}`,{
+    await api.put(`/territorios/${id}`, {
       territorio: datas,
     });
 
-    return { status: response.status };
+    return { success: true };
   } catch (error) {
-    return {
-      status: error.response.status || 500,
-      message: error.response.data.message || 'Erro ao atualizar territirios',
-    }
+    return handleError(error, 'Erro ao atualizar território');
   }
 };
 
-const deleleTerritorio = async (id) => {
+const deleteTerritorio = async (id) => {
   try {
-    const response = await api.delete(`/territorios/${id}`);
+    await api.delete(`/territorios/${id}`);
 
-    return { status: response.status };
+    return { success: true };
   } catch (error) {
-    return {
-      status: error.response?.status || 500,
-      message: error.response?.data?.message || 'Erro ao deletar territirios',
-    };
+    return handleError(error, 'Erro ao deletar território');
   }
 };
 
-export default territirioServices;
+const territorioServices = {
+  get: getTerritorios,
+  getById: (id) => getTerritorioById(id),
+  add: (datas) => addTerritorio(datas),
+  put: (id, datas) => putTerritorio(id, datas),
+  del: (id) => deleteTerritorio(id),
+};
+
+export default territorioServices;
