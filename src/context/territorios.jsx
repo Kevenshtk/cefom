@@ -109,6 +109,50 @@ export const TerritoriosContextProvider = ({ children }) => {
     }
   };
 
+  const adicionarBairro = async (id, bairro) => {
+    const result = await territorioServices.addBairro(id, bairro);
+
+    if (result.success) {
+      Toast.fire({
+        icon: 'success',
+        title: 'Bairro adicionado com sucesso!',
+      });
+
+      await buscarTerritorioPorId(id);
+
+      return true;
+    } else {
+      Toast.fire({
+        icon: 'warning',
+        title: result.message,
+      });
+
+      return false;
+    }
+  };
+
+  const deletarBairro = async (id, bairro) => {
+    const result = await territorioServices.delBairro(id, bairro);
+
+    if (result.success) {
+      Toast.fire({
+        icon: 'success',
+        title: 'Bairro removido com sucesso!',
+      });
+
+      await buscarTerritorioPorId(id);
+
+      return true;
+    } else {
+      Toast.fire({
+        icon: 'warning',
+        title: result.message,
+      });
+
+      return false;
+    }
+  };
+
   useEffect(() => {
     loadTerritorios();
   }, []);
@@ -123,6 +167,8 @@ export const TerritoriosContextProvider = ({ children }) => {
         deletarTerritorio,
         adicionarTerritorio,
         atualizarTerritorio,
+        adicionarBairro,
+        deletarBairro,
       }}
     >
       {children}

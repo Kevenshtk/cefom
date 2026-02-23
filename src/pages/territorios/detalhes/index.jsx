@@ -11,7 +11,6 @@ const DetalhesTerritorio = () => {
     buscarTerritorioPorId(id);
   }, []);
 
-
   return (
     <>
       <h1>Detalhes do Território</h1>
@@ -21,7 +20,12 @@ const DetalhesTerritorio = () => {
       <Link to={`/territorios/atualizar/${id}`}>Atualizar</Link>
       <span>Id: {territorio?.idTerritorio}</span>
       <span>Nome: {territorio?.territorio}</span>
-      <span>Bairros: </span>
+      <span>Bairros:</span>
+      <ul>
+        {territorio?.bairros?.map((bairro, index) => (
+          <li key={index}>{bairro}</li>
+        ))}
+      </ul>
     </>
   );
 };
