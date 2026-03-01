@@ -29,23 +29,31 @@ const CadastroTerritorio = () => {
       <form onSubmit={handleSubmit(onSubmit)}>
         <label htmlFor="data">Data do Cadastro</label>
         <Controller
-         name='data'
-         control={control}
-         render={({ field }) => (
-          <input type="date" {...field}/>
-         )}/>
-        
+          name="data"
+          control={control}
+          render={({ field }) => <input type="date" {...field} />}
+        />
 
         <label htmlFor="nome">Nome do Território</label>
         <Controller
           name="nome"
           control={control}
-          defaultValue=''
-          render={({ field }) => (
-            <input type="text" placeholder="CRAS Miguel Padeiro" {...field} />
-          )}
+          defaultValue=""
+          rules={{ required: 'Campo obrigatória' }}
+          render={({ field }) => {
+            return (
+              <>
+                <input
+                  type="text"
+                  placeholder="CRAS Miguel Padeiro"
+                  {...field}
+                />
+                {errors.nome && <span>{errors.nome.message}</span>}
+              </>
+            );
+          }}
         />
-        <button type="submit">Salvar</button>
+        <button type="submit">{isSubmitting ? 'Salvando...' : 'Salvar'}</button>
       </form>
     </>
   );

@@ -71,10 +71,22 @@ const AtualizarTerritorio = () => {
         <Controller
           name="nome"
           control={control}
-          render={({ field }) => <input type="text" {...field} />}
+          rules={{
+            validate: (value) =>
+              value.trim() !== territorio.territorio.trim() ||
+              'O nome do território deve ser diferente do atual',
+          }}
+          render={({ field }) => {
+            return (
+              <>
+                <input type="text" {...field} />
+                {errors.nome && <span>{errors.nome.message}</span>}
+              </>
+            );
+          }}
         />
 
-        <button type="submit">Salvar</button>
+        <button type="submit">{isSubmitting ? 'Salvando...' : 'Salvar'}</button>
       </form>
 
       <span>Bairros:</span>
@@ -138,10 +150,20 @@ const AtualizarBairros = () => {
           name="bairro"
           control={control}
           defaultValue=""
-          render={({ field }) => <input type="text" {...field} />}
+          rules={{ required: 'Campo obrigatória' }}
+          render={({ field }) => {
+            return (
+              <>
+                <input type="text" {...field} />
+                {errors.bairro && <span>{errors.bairro.message}</span>}
+              </>
+            );
+          }}
         />
 
-        <button type="submit">Adicionar Bairro</button>
+        <button type="submit">
+          {isSubmitting ? 'Adicionando...' : 'Adicionar Bairro'}
+        </button>
       </form>
 
       <ul>
