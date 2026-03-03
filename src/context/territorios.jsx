@@ -22,6 +22,20 @@ export const TerritoriosContextProvider = ({ children }) => {
   const [territorios, setTerritorios] = useState([]);
   const [territorio, setTerritorio] = useState({});
 
+  const showSuccess = (msg) => {
+    Toast.fire({
+      icon: 'success',
+      title: msg,
+    });
+  };
+
+  const showError = (msg) => {
+    Toast.fire({
+      icon: 'warning',
+      title: msg,
+    });
+  };
+
   const loadTerritorios = async () => {
     const result = await territorioServices.get();
 
@@ -50,107 +64,57 @@ export const TerritoriosContextProvider = ({ children }) => {
     }
   };
 
-  const adicionarTerritorio = async (territorio) => {
-    const result = await territorioServices.add(territorio);
+  const handleAction = async (action, msg, onSuccess) => {
+    const result = await action();
 
     if (result.success) {
-      Toast.fire({
-        icon: 'success',
-        title: 'Território cadastrado com sucesso!',
-      });
-      loadTerritorios();
-
+      showSuccess(msg);
+      if (onSuccess) await onSuccess();
       return true;
     } else {
-      Toast.fire({
-        icon: 'warning',
-        title: result.message,
-      });
-
+      showError(result.message);
       return false;
     }
   };
 
-  const atualizarTerritorio = async (id, dados) => {
-    const result = await territorioServices.put(id, dados);
-
-    if (result.success) {
-      Toast.fire({
-        icon: 'success',
-        title: 'Território atualizado com sucesso!',
-      });
-      loadTerritorios();
-
-      return true;
-    } else {
-      Toast.fire({
-        icon: 'warning',
-        title: result.message,
-      });
-
-      return false;
-    }
+  const adicionarTerritorio = (territorio) => {
+    handleAction(
+      () => territorioServices.add(territorio),
+      'Território cadastrado com sucesso!',
+      loadTerritorios
+    );
   };
 
-  const deletarTerritorio = async (id) => {
-    const result = await territorioServices.del(id);
-
-    if (result.success) {
-      Toast.fire({
-        icon: 'success',
-        title: 'Território removido com sucesso!',
-      });
-      loadTerritorios();
-    } else {
-      Toast.fire({
-        icon: 'warning',
-        title: result.message,
-      });
-    }
+  const atualizarTerritorio = (id, dados) => {
+    handleAction(
+      () => territorioServices.put(id, dados),
+      'Território atualizado com sucesso!',
+      loadTerritorios
+    );
   };
 
-  const adicionarBairro = async (id, bairro) => {
-    const result = await territorioServices.addBairro(id, bairro);
-
-    if (result.success) {
-      Toast.fire({
-        icon: 'success',
-        title: 'Bairro adicionado com sucesso!',
-      });
-
-      await buscarTerritorioPorId(id);
-
-      return true;
-    } else {
-      Toast.fire({
-        icon: 'warning',
-        title: result.message,
-      });
-
-      return false;
-    }
+  const deletarTerritorio = (id) => {
+    handleAction(
+      () => territorioServices.del(id),
+      'Território removido com sucesso!',
+      loadTerritorios
+    );
   };
 
-  const deletarBairro = async (id, bairro) => {
-    const result = await territorioServices.delBairro(id, bairro);
+  const adicionarBairro = (id, bairro) => {
+    handleAction(
+      () => territorioServices.addBairro(id, bairro),
+      'Bairro adicionado com sucesso!',
+      () => buscarTerritorioPorId(id)
+    );
+  };
 
-    if (result.success) {
-      Toast.fire({
-        icon: 'success',
-        title: 'Bairro removido com sucesso!',
-      });
-
-      await buscarTerritorioPorId(id);
-
-      return true;
-    } else {
-      Toast.fire({
-        icon: 'warning',
-        title: result.message,
-      });
-
-      return false;
-    }
+  const deletarBairro = (id, bairro) => {
+    handleAction(
+      () => territorioServices.delBairro(id, bairro),
+      'Bairro removido com sucesso!',
+      () => buscarTerritorioPorId(id)
+    );
   };
 
   useEffect(() => {
