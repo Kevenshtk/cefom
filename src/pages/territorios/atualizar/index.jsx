@@ -64,7 +64,7 @@ const AtualizarTerritorio = () => {
         <Controller
           name="data"
           control={control}
-          render={({ field }) => <input type="date" {...field} />}
+          render={({ field }) => <input id='data' type="date" {...field} />}
         />
 
         <label htmlFor="nome">Nome do Território</label>
@@ -79,7 +79,7 @@ const AtualizarTerritorio = () => {
           render={({ field }) => {
             return (
               <>
-                <input type="text" {...field} />
+                <input id='nome' type="text" {...field} />
                 {errors.nome && <span>{errors.nome.message}</span>}
               </>
             );
@@ -92,8 +92,8 @@ const AtualizarTerritorio = () => {
       <span>Bairros:</span>
       <Link to={`/territorios/atualizar/${id}/bairro`}>Atualizar Bairros</Link>
       <ul>
-        {territorio?.bairros?.map((bairro, index) => (
-          <li key={index}>{bairro}</li>
+        {territorio?.bairros?.map((bairro) => (
+          <li key={bairro}>{bairro}</li>
         ))}
       </ul>
     </>
@@ -142,7 +142,7 @@ const AtualizarBairros = () => {
         <Controller
           name="data"
           control={control}
-          render={({ field }) => <input type="date" {...field} />}
+          render={({ field }) => <input id='data' type="date" {...field} />}
         />
 
         <label htmlFor="bairro">Bairro</label>
@@ -150,11 +150,11 @@ const AtualizarBairros = () => {
           name="bairro"
           control={control}
           defaultValue=""
-          rules={{ required: 'Campo obrigatória' }}
+          rules={{ required: 'Campo obrigatório' }}
           render={({ field }) => {
             return (
               <>
-                <input type="text" {...field} />
+                <input id='bairro' type="text" {...field} />
                 {errors.bairro && <span>{errors.bairro.message}</span>}
               </>
             );
@@ -167,9 +167,9 @@ const AtualizarBairros = () => {
       </form>
 
       <ul>
-        {territorio?.bairros?.map((bairro, index) => {
+        {territorio?.bairros?.map((bairro) => {
           return (
-            <div key={index}>
+            <div key={bairro}>
               <li>{bairro}</li>
               <button type="button" onClick={() => deletarBairro(id, bairro)}>
                 x

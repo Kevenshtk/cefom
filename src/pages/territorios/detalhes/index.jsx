@@ -9,7 +9,11 @@ const DetalhesTerritorio = () => {
 
   useEffect(() => {
     buscarTerritorioPorId(id);
-  }, []);
+  }, [id, buscarTerritorioPorId]);
+
+  if (!territorio) {
+  return <p>Carregando...</p>;
+}
 
   return (
     <>
@@ -22,8 +26,8 @@ const DetalhesTerritorio = () => {
       <span>Nome: {territorio?.territorio}</span>
       <span>Bairros:</span>
       <ul>
-        {territorio?.bairros?.map((bairro, index) => (
-          <li key={index}>{bairro}</li>
+        {territorio?.bairros?.map((bairro) => (
+          <li key={bairro}>{bairro}</li>
         ))}
       </ul>
     </>

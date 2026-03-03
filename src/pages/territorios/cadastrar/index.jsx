@@ -31,7 +31,7 @@ const CadastroTerritorio = () => {
         <Controller
           name="data"
           control={control}
-          render={({ field }) => <input type="date" {...field} />}
+          render={({ field }) => <input id='data' type="date" {...field} />}
         />
 
         <label htmlFor="nome">Nome do Território</label>
@@ -39,11 +39,12 @@ const CadastroTerritorio = () => {
           name="nome"
           control={control}
           defaultValue=""
-          rules={{ required: 'Campo obrigatória' }}
+          rules={{ required: 'Campo obrigatório' }}
           render={({ field }) => {
             return (
               <>
                 <input
+                id='nome'
                   type="text"
                   placeholder="CRAS Miguel Padeiro"
                   {...field}
