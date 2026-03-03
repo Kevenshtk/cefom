@@ -77,7 +77,7 @@ const addBairro = async (id, data) => {
   const bairrosAtuais = territorio.data?.bairros;
   const novosBairros = [...bairrosAtuais, data];
 
-  return updateBairro(id, novosBairros);
+  return await updateBairro(id, novosBairros);
 };
 
 const deleteBairro = async (id, data) => {
@@ -88,7 +88,7 @@ const deleteBairro = async (id, data) => {
   const bairrosAtuais = territorio.data?.bairros;
   const novosBairros = bairrosAtuais.filter((b) => b !== data);
 
-  return updateBairro(id, novosBairros);
+  return await updateBairro(id, novosBairros);
 };
 
 const territorioServices = {
