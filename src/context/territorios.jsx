@@ -20,6 +20,8 @@ export const TerritoriosContext = createContext();
 
 export const TerritoriosContextProvider = ({ children }) => {
   const [territorios, setTerritorios] = useState([]);
+  const [page, setPage] = useState(0);
+  const [totalPages, setTotalPages] = useState(0);
   const [territorio, setTerritorio] = useState({});
 
   const showSuccess = (msg) => {
@@ -36,11 +38,12 @@ export const TerritoriosContextProvider = ({ children }) => {
     });
   };
 
-  const loadTerritorios = async () => {
-    const result = await territorioServices.get();
+  const loadTerritorios = async (pageCurrent) => {
+    const result = await territorioServices.get(pageCurrent);
 
     if (result.success) {
-      setTerritorios(result.data);
+      setTerritorios(result.data.content);
+      setTotalPages(result.data.totalPages);
     } else {
       Toast.fire({
         icon: 'warning',
@@ -69,7 +72,7 @@ export const TerritoriosContextProvider = ({ children }) => {
 
     if (result.success) {
       showSuccess(msg);
-      if (onSuccess) await onSuccess();
+      if (onSuccess) await onSuccess(page);
       return true;
     } else {
       showError(result.message);
@@ -118,14 +121,17 @@ export const TerritoriosContextProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    loadTerritorios();
-  }, []);
+    loadTerritorios(page);
+  }, [page]);
 
   return (
     <TerritoriosContext.Provider
       value={{
         territorio,
         territorios,
+        page,
+        setPage,
+        totalPages,
         loadTerritorios,
         buscarTerritorioPorId,
         deletarTerritorio,

@@ -5,10 +5,14 @@ const handleError = (error, defaultMessage) => ({
   message: error.response?.data?.message || defaultMessage,
 });
 
-const getTerritorios = async () => {
+const getTerritorios = async (pageCurrent) => {
   try {
-    const response = await api.get('/territorios');
-    return { success: true, data: response.data.content };
+    const response = await api.get('/territorios',{
+      params: {
+        page: pageCurrent,
+      },
+    });
+    return { success: true, data: response.data };
   } catch (error) {
     return handleError(error, 'Erro ao buscar territórios');
   }
@@ -92,7 +96,7 @@ const deleteBairro = async (id, data) => {
 };
 
 const territorioServices = {
-  get: getTerritorios,
+  get: (pageCurrent) => getTerritorios(pageCurrent) ,
   getById: (id) => getTerritorioById(id),
   add: (datas) => addTerritorio(datas),
   put: (id, datas) => putTerritorio(id, datas),
