@@ -6,9 +6,9 @@ import Button from '../Button';
 import Dropdown from '../Dropdown';
 
 const Header = () => {
-  const [openDropdown, setOpenDropdown] = useState<number | null>(null);
+  const [openDropdown, setOpenDropdown] = useState(null);
 
-  const toggleDropdown = (index: number) => {
+  const toggleDropdown = (index) => {
     setOpenDropdown((prev) => (prev === index ? null : index));
   };
 
