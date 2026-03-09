@@ -29,7 +29,7 @@ const Header = () => {
 
               {item.dropdown &&
                 openDropdown === index &&
-                item.itensDropdown && <Dropdown items={item.itensDropdown} />}
+                item.itensDropdown && <Dropdown items={item.itensDropdown} setOpenDropdown={setOpenDropdown}/>}
             </li>
           ))}
         </ul>
