@@ -4,10 +4,13 @@ import { Link } from 'react-router-dom';
 import { TerritoriosContext } from '../../../context/territorios';
 
 import Swal from 'sweetalert2';
-import Table from '../../../components/Table';
+
+import ListPageLayout from '../../../components/ListPageLayout';
+import DataTable from '../../../components/DataTable';
+import Pagination from '../../../components/Pagination';
 
 const Territorios = () => {
-  const { territorios, deletarTerritorio } = useContext(TerritoriosContext);
+  const { territorios, deletarTerritorio, page, setPage, totalPages } = useContext(TerritoriosContext);
 
   const alertDelete = (id) => {
     Swal.fire({
@@ -20,17 +23,41 @@ const Territorios = () => {
       cancelButtonText: 'Não, cancelar!',
     }).then((result) => {
       if (result.isConfirmed) {
-        deletarTerritorio(id)
+        deletarTerritorio(id);
       }
     });
   };
 
   return (
-    <>
-      <h1>Lista de Territórios</h1>
-      <Link to="/territorios/cadastro">Cadastrar Território</Link>
-      <Table data={territorios} del={alertDelete} />
-    </>
+    <ListPageLayout
+      title="Lista de Territórios"
+      createLink="/territorios/cadastro"
+    >
+      <DataTable
+        data={territorios}
+        columns={[
+          { header: 'ID', accessor: 'idTerritorio' },
+          { header: 'Nome', accessor: 'territorio' },
+        ]}
+        renderActions={(item) => (
+          <>
+            <Link to={`/territorios/detalhes/${item.idTerritorio}`}>
+              Detalhes
+            </Link>
+
+            <Link to={`/territorios/atualizar/${item.idTerritorio}`}>
+              Editar
+            </Link>
+
+            <button onClick={() => alertDelete(item.idTerritorio)}>
+              Deletar
+            </button>
+          </>
+        )}
+      />
+
+      <Pagination page={page} totalPages={totalPages} setPage={setPage} />
+    </ListPageLayout>
   );
 };
 

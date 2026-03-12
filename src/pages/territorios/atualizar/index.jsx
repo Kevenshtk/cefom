@@ -17,6 +17,7 @@ const AtualizarTerritorio = () => {
     reset,
     formState: { isSubmitting, errors },
   } = useForm();
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -44,7 +45,7 @@ const AtualizarTerritorio = () => {
         const result = await atualizarTerritorio(id, data.nome);
         if (result === true) navigate('/territorios');
       } else if (result.isDenied) {
-        Swal.fire('As alterações não são salvas.', '', 'info');
+        Swal.fire('As alterações não foram salvas.', '', 'info');
       } else if (result.isDismissed) {
         navigate('/territorios');
       }

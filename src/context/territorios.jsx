@@ -1,4 +1,4 @@
-import { useState, useEffect, createContext } from 'react';
+import { useState, useEffect, useCallback, createContext } from 'react';
 
 import territorioServices from '../services/territorios';
 
@@ -22,7 +22,7 @@ export const TerritoriosContextProvider = ({ children }) => {
   const [territorios, setTerritorios] = useState([]);
   const [page, setPage] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
-  const [territorio, setTerritorio] = useState({});
+  const [territorio, setTerritorio] = useState(null);
 
   const showSuccess = (msg) => {
     Toast.fire({
@@ -38,7 +38,7 @@ export const TerritoriosContextProvider = ({ children }) => {
     });
   };
 
-  const loadTerritorios = async (pageCurrent) => {
+  const loadTerritorios = useCallback(async (pageCurrent) => {
     const result = await territorioServices.get(pageCurrent);
 
     if (result.success) {
@@ -50,7 +50,7 @@ export const TerritoriosContextProvider = ({ children }) => {
         title: result.message,
       });
     }
-  };
+  }, []);
 
   const buscarTerritorioPorId = async (id) => {
     const result = await territorioServices.getById(id);
@@ -81,7 +81,7 @@ export const TerritoriosContextProvider = ({ children }) => {
   };
 
   const adicionarTerritorio = (territorio) => {
-    handleAction(
+    return handleAction(
       () => territorioServices.add(territorio),
       'Território cadastrado com sucesso!',
       loadTerritorios
@@ -89,7 +89,7 @@ export const TerritoriosContextProvider = ({ children }) => {
   };
 
   const atualizarTerritorio = (id, dados) => {
-    handleAction(
+    return handleAction(
       () => territorioServices.put(id, dados),
       'Território atualizado com sucesso!',
       loadTerritorios
