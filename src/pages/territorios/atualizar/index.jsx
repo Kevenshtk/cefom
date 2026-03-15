@@ -5,7 +5,7 @@ import { Controller } from 'react-hook-form';
 
 import { TerritoriosContext } from '../../../context/territorios';
 
-import Swal from 'sweetalert2';
+import alert from '../../../utils/alert';
 
 const AtualizarTerritorio = () => {
   const { id } = useParams();
@@ -33,23 +33,14 @@ const AtualizarTerritorio = () => {
   }, [territorio, reset]);
 
   const onSubmit = async (data) => {
-    Swal.fire({
-      title: 'Deseja salvar as alterações?',
-      showDenyButton: true,
-      showCancelButton: true,
-      confirmButtonText: 'Salvar',
-      denyButtonText: `Não Salvar`,
-      cancelButtonText: 'Cancelar',
-    }).then(async (result) => {
-      if (result.isConfirmed) {
-        const result = await atualizarTerritorio(id, data.nome);
-        if (result === true) navigate('/territorios');
-      } else if (result.isDenied) {
-        Swal.fire('As alterações não foram salvas.', '', 'info');
-      } else if (result.isDismissed) {
-        navigate('/territorios');
-      }
-    });
+    const result = await alert.update();
+
+    if (result.isConfirmed) {
+      const result = await atualizarTerritorio(id, data.nome);
+      if (result === true) navigate('/territorios');
+    } else if (result.isDismissed) {
+      navigate('/territorios');
+    }
   };
 
   return (
@@ -65,7 +56,7 @@ const AtualizarTerritorio = () => {
         <Controller
           name="data"
           control={control}
-          render={({ field }) => <input id='data' type="date" {...field} />}
+          render={({ field }) => <input id="data" type="date" {...field} />}
         />
 
         <label htmlFor="nome">Nome do Território</label>
@@ -80,7 +71,7 @@ const AtualizarTerritorio = () => {
           render={({ field }) => {
             return (
               <>
-                <input id='nome' type="text" {...field} />
+                <input id="nome" type="text" {...field} />
                 {errors.nome && <span>{errors.nome.message}</span>}
               </>
             );
@@ -112,22 +103,10 @@ const AtualizarBairros = () => {
     formState: { isSubmitting, errors },
   } = useForm();
 
-  const onSubmit = async (data) => {
-    Swal.fire({
-      title: 'Deseja adicionar o bairro?',
-      showDenyButton: true,
-      confirmButtonColor: '#21be28',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Sim',
-      denyButtonText: `Não, cancelar`,
-    }).then((result) => {
-      if (result.isConfirmed) {
-        adicionarBairro(id, data.bairro);
-        reset();
-      } else if (result.isDenied) {
-        Swal.fire('O bairro não foi adicionado.', '', 'info');
-      }
-    });
+  const onSubmit = (data) => {
+    const result = adicionarBairro(id, data.bairro);
+
+    if (result) reset();
   };
 
   return (
@@ -143,7 +122,7 @@ const AtualizarBairros = () => {
         <Controller
           name="data"
           control={control}
-          render={({ field }) => <input id='data' type="date" {...field} />}
+          render={({ field }) => <input id="data" type="date" {...field} />}
         />
 
         <label htmlFor="bairro">Bairro</label>
@@ -155,7 +134,7 @@ const AtualizarBairros = () => {
           render={({ field }) => {
             return (
               <>
-                <input id='bairro' type="text" {...field} />
+                <input id="bairro" type="text" {...field} />
                 {errors.bairro && <span>{errors.bairro.message}</span>}
               </>
             );

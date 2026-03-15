@@ -17,7 +17,7 @@ const CadastroEscola = () => {
   const onSubmit = async (datas) => {
     const result = await adicionarEscola(datas);
 
-    if (result === true) reset();
+    if (result) reset();
   };
 
   return (

@@ -17,7 +17,7 @@ const CadastroTerritorio = () => {
   const onSubmit = async (data) => {
     const result = await adicionarTerritorio(data.nome);
 
-    if (result === true) reset();
+    if (result) reset();
   };
 
   return (

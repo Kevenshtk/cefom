@@ -3,29 +3,20 @@ import { Link } from 'react-router-dom';
 
 import { TerritoriosContext } from '../../../context/territorios';
 
-import Swal from 'sweetalert2';
+import alert from '../../../utils/alert';
 
 import ListPageLayout from '../../../components/ListPageLayout';
 import DataTable from '../../../components/DataTable';
 import Pagination from '../../../components/Pagination';
 
 const Territorios = () => {
-  const { territorios, deletarTerritorio, page, setPage, totalPages } = useContext(TerritoriosContext);
+  const { territorios, deletarTerritorio, page, setPage, totalPages } =
+    useContext(TerritoriosContext);
 
-  const alertDelete = (id) => {
-    Swal.fire({
-      title: 'Deseja excluir o registro?',
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Sim, excluir!',
-      cancelButtonText: 'Não, cancelar!',
-    }).then((result) => {
-      if (result.isConfirmed) {
-        deletarTerritorio(id);
-      }
-    });
+  const handleDelItem = async (id) => {
+    const result = await alert.delete();
+
+    if (result) deletarTerritorio(id);
   };
 
   return (
@@ -49,7 +40,7 @@ const Territorios = () => {
               Editar
             </Link>
 
-            <button onClick={() => alertDelete(item.idTerritorio)}>
+            <button onClick={() => handleDelItem(item.idTerritorio)}>
               Deletar
             </button>
           </>

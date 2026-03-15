@@ -4,7 +4,7 @@ import { useContext, useEffect } from 'react';
 
 import { EscolasContext } from '../../../context/escolas';
 
-import Swal from 'sweetalert2';
+import alert from '../../../utils/alert';
 
 const AtualizarEscola = () => {
   const { id } = useParams();
@@ -39,24 +39,15 @@ const AtualizarEscola = () => {
     }
   }, [escola, reset]);
 
-  const onSubmit = async (datas) => {
-    Swal.fire({
-      title: 'Deseja salvar as alterações?',
-      showDenyButton: true,
-      showCancelButton: true,
-      confirmButtonText: 'Salvar',
-      denyButtonText: `Não Salvar`,
-      cancelButtonText: 'Cancelar',
-    }).then(async (result) => {
-      if (result.isConfirmed) {
-        const result = await atualizarEscola(id, datas);
-        if (result === true) navigate('/escolas');
-      } else if (result.isDenied) {
-        Swal.fire('As alterações não foram salvas.', '', 'info');
-      } else if (result.isDismissed) {
-        navigate('/escolas');
-      }
-    });
+  const onSubmit = async (data) => {
+    const result = await alert.update();
+
+    if (result.isConfirmed) {
+      const result = await atualizarEscola(id, data);
+      if (result === true) navigate('/escolas');
+    } else if (result.isDismissed) {
+      navigate('/escolas');
+    }
   };
 
   return (

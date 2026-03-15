@@ -2,19 +2,7 @@ import { useState, useEffect, useCallback, createContext } from 'react';
 
 import territorioServices from '../services/territorios';
 
-import Swal from 'sweetalert2';
-
-const Toast = Swal.mixin({
-  toast: true,
-  position: 'top-end',
-  showConfirmButton: false,
-  timer: 3500,
-  timerProgressBar: true,
-  didOpen: (toast) => {
-    toast.onmouseenter = Swal.stopTimer;
-    toast.onmouseleave = Swal.resumeTimer;
-  },
-});
+import alert from '../utils/alert';
 
 export const TerritoriosContext = createContext();
 
@@ -24,20 +12,6 @@ export const TerritoriosContextProvider = ({ children }) => {
   const [totalPages, setTotalPages] = useState(0);
   const [territorio, setTerritorio] = useState(null);
 
-  const showSuccess = (msg) => {
-    Toast.fire({
-      icon: 'success',
-      title: msg,
-    });
-  };
-
-  const showError = (msg) => {
-    Toast.fire({
-      icon: 'warning',
-      title: msg,
-    });
-  };
-
   const loadTerritorios = useCallback(async (pageCurrent) => {
     const result = await territorioServices.get(pageCurrent);
 
@@ -45,10 +19,7 @@ export const TerritoriosContextProvider = ({ children }) => {
       setTerritorios(result.data.content);
       setTotalPages(result.data.totalPages);
     } else {
-      Toast.fire({
-        icon: 'warning',
-        title: result.message,
-      });
+      alert.error(result.message);
     }
   }, []);
 
@@ -59,10 +30,7 @@ export const TerritoriosContextProvider = ({ children }) => {
       setTerritorio(result.data);
       return true;
     } else {
-      Toast.fire({
-        icon: 'warning',
-        title: result.message,
-      });
+      alert.error(result.message);
       return false;
     }
   };
@@ -71,11 +39,11 @@ export const TerritoriosContextProvider = ({ children }) => {
     const result = await action();
 
     if (result.success) {
-      showSuccess(msg);
+      alert.success(msg);
       if (onSuccess) await onSuccess(page);
       return true;
     } else {
-      showError(result.message);
+      alert.error(result.message);
       return false;
     }
   };

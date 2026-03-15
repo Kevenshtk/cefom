@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 import { EscolasContext } from '../../../context/escolas';
 
-import Swal from 'sweetalert2';
+import alert from '../../../utils/alert';
 
 import ListPageLayout from '../../../components/ListPageLayout';
 import DataTable from '../../../components/DataTable';
@@ -13,20 +13,10 @@ const Escolas = () => {
   const { escolas, deletarEscola, page, setPage, totalPages } =
     useContext(EscolasContext);
 
-  const alertDelete = (id) => {
-    Swal.fire({
-      title: 'Deseja excluir o registro?',
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Sim, excluir!',
-      cancelButtonText: 'Não, cancelar!',
-    }).then((result) => {
-      if (result.isConfirmed) {
-        deletarEscola(id);
-      }
-    });
+  const handleDelItem = async (id) => {
+    const result = await alert.delete();
+
+    if (result) deletarEscola(id);
   };
 
   return (
@@ -39,15 +29,11 @@ const Escolas = () => {
         ]}
         renderActions={(item) => (
           <>
-            <Link to={`/escolas/detalhes/${item.idEscola}`}>
-              Detalhes
-            </Link>
+            <Link to={`/escolas/detalhes/${item.idEscola}`}>Detalhes</Link>
 
-            <Link to={`/escolas/atualizar/${item.idEscola}`}>
-              Editar
-            </Link>
+            <Link to={`/escolas/atualizar/${item.idEscola}`}>Editar</Link>
 
-            <button onClick={() => alertDelete(item.idEscola)}>Deletar</button>
+            <button onClick={() => handleDelItem(item.idEscola)}>Deletar</button>
           </>
         )}
       />

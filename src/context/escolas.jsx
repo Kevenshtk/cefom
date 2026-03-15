@@ -2,19 +2,7 @@ import { useState, useEffect, useCallback, createContext } from 'react';
 
 import escolaServices from '../services/escolas';
 
-import Swal from 'sweetalert2';
-
-const Toast = Swal.mixin({
-  toast: true,
-  position: 'top-end',
-  showConfirmButton: false,
-  timer: 3500,
-  timerProgressBar: true,
-  didOpen: (toast) => {
-    toast.onmouseenter = Swal.stopTimer;
-    toast.onmouseleave = Swal.resumeTimer;
-  },
-});
+import alert from '../utils/alert';
 
 export const EscolasContext = createContext();
 
@@ -24,20 +12,6 @@ export const EscolasContextProvider = ({ children }) => {
   const [totalPages, setTotalPages] = useState(0);
   const [escola, setEscola] = useState(null);
 
-  const showSuccess = (msg) => {
-    Toast.fire({
-      icon: 'success',
-      title: msg,
-    });
-  };
-
-  const showError = (msg) => {
-    Toast.fire({
-      icon: 'warning',
-      title: msg,
-    });
-  };
-
   const loadEscolas = useCallback(async (pageCurrent) => {
     const result = await escolaServices.get(pageCurrent);
 
@@ -45,7 +19,7 @@ export const EscolasContextProvider = ({ children }) => {
       setEscolas(result.data.content);
       setTotalPages(result.data.totalPages);
     } else {
-      showError(result.message);
+      alert.error(result.message);
     }
   }, []);
 
@@ -53,11 +27,11 @@ export const EscolasContextProvider = ({ children }) => {
     const result = await action();
 
     if (result.success) {
-      showSuccess(msg);
+      alert.success(msg);
       if (onSuccess) await onSuccess(page);
       return true;
     } else {
-      showError(result.message);
+      alert.error(result.message);
       return false;
     }
   };
@@ -68,7 +42,7 @@ export const EscolasContextProvider = ({ children }) => {
     if (result.success) {
       setEscola(result.data);
     } else {
-      showError(result.message);
+      alert.error(result.message);
     }
   };
 
