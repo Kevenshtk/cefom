@@ -12,10 +12,10 @@ const CadastroEscola = () => {
     formState: { isSubmitting, errors },
   } = useForm();
 
-  const { adicionarEscola } = useContext(EscolasContext);
+  const { add } = useContext(EscolasContext);
 
   const onSubmit = async (datas) => {
-    const result = await adicionarEscola(datas);
+    const result = await add(datas);
 
     if (result) reset();
   };

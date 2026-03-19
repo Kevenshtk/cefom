@@ -1,110 +1,31 @@
-import { useState, useEffect, useCallback, createContext } from 'react';
-
+import { useState, createContext } from 'react';
 import territorioServices from '../services/territorios';
-
-import alert from '../utils/alert';
+import { useCrud } from '../hooks/useCrud';
 
 export const TerritoriosContext = createContext();
 
 export const TerritoriosContextProvider = ({ children }) => {
-  const [territorios, setTerritorios] = useState([]);
-  const [page, setPage] = useState(0);
-  const [totalPages, setTotalPages] = useState(0);
-  const [territorio, setTerritorio] = useState(null);
-
-  const loadTerritorios = useCallback(async (pageCurrent) => {
-    const result = await territorioServices.get(pageCurrent);
-
-    if (result.success) {
-      setTerritorios(result.data.content);
-      setTotalPages(result.data.totalPages);
-    } else {
-      alert.error(result.message);
-    }
-  }, []);
-
-  const buscarTerritorioPorId = async (id) => {
-    const result = await territorioServices.getById(id);
-
-    if (result.success) {
-      setTerritorio(result.data);
-      return true;
-    } else {
-      alert.error(result.message);
-      return false;
-    }
-  };
-
-  const handleAction = async (action, msg, onSuccess) => {
-    const result = await action();
-
-    if (result.success) {
-      alert.success(msg);
-      if (onSuccess) await onSuccess(page);
-      return true;
-    } else {
-      alert.error(result.message);
-      return false;
-    }
-  };
-
-  const adicionarTerritorio = (territorio) => {
-    return handleAction(
-      () => territorioServices.add(territorio),
-      'Território cadastrado com sucesso!',
-      loadTerritorios
-    );
-  };
-
-  const atualizarTerritorio = (id, dados) => {
-    return handleAction(
-      () => territorioServices.put(id, dados),
-      'Território atualizado com sucesso!',
-      loadTerritorios
-    );
-  };
-
-  const deletarTerritorio = (id) => {
-    handleAction(
-      () => territorioServices.del(id),
-      'Território removido com sucesso!',
-      loadTerritorios
-    );
-  };
+  const crud = useCrud(territorioServices);
 
   const adicionarBairro = (id, bairro) => {
-    handleAction(
+    crud.handleAction(
       () => territorioServices.addBairro(id, bairro),
       'Bairro adicionado com sucesso!',
-      () => buscarTerritorioPorId(id)
+      () => crud.getById(id)
     );
   };
 
   const deletarBairro = (id, bairro) => {
-    handleAction(
+    crud.handleAction(
       () => territorioServices.delBairro(id, bairro),
       'Bairro removido com sucesso!',
-      () => buscarTerritorioPorId(id)
+      () => crud.getById(id)
     );
   };
 
-  useEffect(() => {
-    loadTerritorios(page);
-  }, [page]);
-
   return (
     <TerritoriosContext.Provider
-      value={{
-        territorio,
-        territorios,
-        page,
-        setPage,
-        totalPages,
-        loadTerritorios,
-        buscarTerritorioPorId,
-        deletarTerritorio,
-        adicionarTerritorio,
-        atualizarTerritorio,
+      value={{...crud,
         adicionarBairro,
         deletarBairro,
       }}

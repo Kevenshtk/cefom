@@ -9,8 +9,7 @@ import alert from '../../../utils/alert';
 
 const AtualizarTerritorio = () => {
   const { id } = useParams();
-  const { territorio, buscarTerritorioPorId, atualizarTerritorio } =
-    useContext(TerritoriosContext);
+  const { item, getById, update } = useContext(TerritoriosContext);
   const {
     control,
     handleSubmit,
@@ -21,22 +20,22 @@ const AtualizarTerritorio = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    buscarTerritorioPorId(id);
+    getById(id);
   }, [id]);
 
   useEffect(() => {
-    if (territorio) {
+    if (item) {
       reset({
-        nome: territorio.territorio,
+        nome: item.territorio,
       });
     }
-  }, [territorio, reset]);
+  }, [item, reset]);
 
   const onSubmit = async (data) => {
     const result = await alert.update();
 
     if (result.isConfirmed) {
-      const result = await atualizarTerritorio(id, data.nome);
+      const result = await update(id, data.nome);
       if (result === true) navigate('/territorios');
     } else if (result.isDismissed) {
       navigate('/territorios');
@@ -65,7 +64,7 @@ const AtualizarTerritorio = () => {
           control={control}
           rules={{
             validate: (value) =>
-              value.trim() !== territorio.territorio.trim() ||
+              value.trim() !== item.territorio.trim() ||
               'O nome do território deve ser diferente do atual',
           }}
           render={({ field }) => {
@@ -84,7 +83,7 @@ const AtualizarTerritorio = () => {
       <span>Bairros:</span>
       <Link to={`/territorios/atualizar/${id}/bairro`}>Atualizar Bairros</Link>
       <ul>
-        {territorio?.bairros?.map((bairro) => (
+        {item?.bairros?.map((bairro) => (
           <li key={bairro}>{bairro}</li>
         ))}
       </ul>
@@ -94,7 +93,7 @@ const AtualizarTerritorio = () => {
 
 const AtualizarBairros = () => {
   const { id } = useParams();
-  const { territorio, adicionarBairro, deletarBairro } =
+  const { item, adicionarBairro, deletarBairro } =
     useContext(TerritoriosContext);
   const {
     control,
@@ -114,7 +113,7 @@ const AtualizarBairros = () => {
       <h1>Atualizar Bairros</h1>
       <Link to={`/territorios/atualizar/${id}`}>Voltar</Link>
       <span>Id: {id}</span>
-      <span>Nome: {territorio?.territorio}</span>
+      <span>Nome: {item?.territorio}</span>
       <span>Bairros:</span>
 
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -147,7 +146,7 @@ const AtualizarBairros = () => {
       </form>
 
       <ul>
-        {territorio?.bairros?.map((bairro) => {
+        {item?.bairros?.map((bairro) => {
           return (
             <div key={bairro}>
               <li>{bairro}</li>

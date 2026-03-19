@@ -10,19 +10,19 @@ import DataTable from '../../../components/DataTable';
 import Pagination from '../../../components/Pagination';
 
 const Escolas = () => {
-  const { escolas, deletarEscola, page, setPage, totalPages } =
+  const { items, remove, page, setPage, totalPages } =
     useContext(EscolasContext);
 
   const handleDelItem = async (id) => {
     const result = await alert.delete();
 
-    if (result) deletarEscola(id);
+    if (result) remove(id);
   };
 
   return (
     <ListPageLayout title="Lista de Escolas" createLink="/escolas/cadastro">
       <DataTable
-        data={escolas}
+        data={items}
         columns={[
           { header: 'ID', accessor: 'idEscola' },
           { header: 'Nome', accessor: 'nome' },

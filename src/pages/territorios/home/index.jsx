@@ -10,13 +10,13 @@ import DataTable from '../../../components/DataTable';
 import Pagination from '../../../components/Pagination';
 
 const Territorios = () => {
-  const { territorios, deletarTerritorio, page, setPage, totalPages } =
+  const { items, remove, page, setPage, totalPages } =
     useContext(TerritoriosContext);
 
   const handleDelItem = async (id) => {
     const result = await alert.delete();
 
-    if (result) deletarTerritorio(id);
+    if (result) remove(id);
   };
 
   return (
@@ -25,7 +25,7 @@ const Territorios = () => {
       createLink="/territorios/cadastro"
     >
       <DataTable
-        data={territorios}
+        data={items}
         columns={[
           { header: 'ID', accessor: 'idTerritorio' },
           { header: 'Nome', accessor: 'territorio' },

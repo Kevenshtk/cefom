@@ -8,7 +8,7 @@ import alert from '../../../utils/alert';
 
 const AtualizarEscola = () => {
   const { id } = useParams();
-  const { escola, buscarEscolaPorId, atualizarEscola } =
+  const { item, getById, update } =
     useContext(EscolasContext);
   const {
     control,
@@ -20,30 +20,30 @@ const AtualizarEscola = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    buscarEscolaPorId(id);
+    getById(id);
   }, [id]);
 
   useEffect(() => {
-    if (escola) {
+    if (item) {
       reset({
-        nome: escola.nome,
-        tipo: escola.tipo,
-        cep: escola.endereco?.cep,
-        logradouro: escola.endereco?.logradouro,
-        numero: escola.endereco?.numero,
-        complemento: escola.endereco?.complemento,
-        bairro: escola.endereco?.bairro,
-        cidade: escola.endereco?.cidade,
-        estado: escola.endereco?.estado,
+        nome: item.nome,
+        tipo: item.tipo,
+        cep: item.endereco?.cep,
+        logradouro: item.endereco?.logradouro,
+        numero: item.endereco?.numero,
+        complemento: item.endereco?.complemento,
+        bairro: item.endereco?.bairro,
+        cidade: item.endereco?.cidade,
+        estado: item.endereco?.estado,
       });
     }
-  }, [escola, reset]);
+  }, [item, reset]);
 
   const onSubmit = async (data) => {
     const result = await alert.update();
 
     if (result.isConfirmed) {
-      const result = await atualizarEscola(id, data);
+      const result = await update(id, data);
       if (result === true) navigate('/escolas');
     } else if (result.isDismissed) {
       navigate('/escolas');

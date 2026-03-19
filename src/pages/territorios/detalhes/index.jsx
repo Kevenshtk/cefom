@@ -5,15 +5,15 @@ import { TerritoriosContext } from '../../../context/territorios';
 
 const DetalhesTerritorio = () => {
   const { id } = useParams();
-  const { territorio, buscarTerritorioPorId } = useContext(TerritoriosContext);
+  const { item, getById } = useContext(TerritoriosContext);
 
   useEffect(() => {
-    buscarTerritorioPorId(id);
-  }, [id, buscarTerritorioPorId]);
+    getById(id);
+  }, [id, getById]);
 
-  if (!territorio) {
-  return <p>Carregando...</p>;
-}
+  if (!item) {
+    return <p>Carregando...</p>;
+  }
 
   return (
     <>
@@ -22,11 +22,11 @@ const DetalhesTerritorio = () => {
 
       <h2>Identificação</h2>
       <Link to={`/territorios/atualizar/${id}`}>Atualizar</Link>
-      <span>Id: {territorio?.idTerritorio}</span>
-      <span>Nome: {territorio?.territorio}</span>
+      <span>Id: {item?.idTerritorio}</span>
+      <span>Nome: {item?.territorio}</span>
       <span>Bairros:</span>
       <ul>
-        {territorio?.bairros?.map((bairro) => (
+        {item?.bairros?.map((bairro) => (
           <li key={bairro}>{bairro}</li>
         ))}
       </ul>

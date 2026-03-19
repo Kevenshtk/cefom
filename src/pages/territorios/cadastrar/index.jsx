@@ -12,10 +12,10 @@ const CadastroTerritorio = () => {
     formState: { isSubmitting, errors },
   } = useForm();
 
-  const { adicionarTerritorio } = useContext(TerritoriosContext);
+  const { add } = useContext(TerritoriosContext);
 
   const onSubmit = async (data) => {
-    const result = await adicionarTerritorio(data.nome);
+    const result = await add(data.nome);
 
     if (result) reset();
   };

@@ -5,13 +5,13 @@ import { EscolasContext } from '../../../context/escolas';
 
 const DetalhesEscola = () => {
   const { id } = useParams();
-  const { escola, buscarEscolaPorId } = useContext(EscolasContext);
+  const { item, getById } = useContext(EscolasContext);
 
   useEffect(() => {
-    buscarEscolaPorId(id);
-  }, [id, buscarEscolaPorId]);
+    getById(id);
+  }, [id, getById]);
 
-  if (!escola) {
+  if (!item) {
     return <p>Carregando...</p>;
   }
 
@@ -22,23 +22,23 @@ const DetalhesEscola = () => {
 
       <h2>Identificação</h2>
       <Link to={`/escolas/atualizar/${id}`}>Atualizar</Link>
-      <span>Id: {escola?.idEscola}</span>
-      <span>Nome: {escola?.nome}</span>
-      <span>Tipo: {escola?.tipo}</span>
+      <span>Id: {item?.idEscola}</span>
+      <span>Nome: {item?.nome}</span>
+      <span>Tipo: {item?.tipo}</span>
       <h2>Endereço</h2>
-      <span>CEP: {escola?.endereco?.cep}</span>
+      <span>CEP: {item?.endereco?.cep}</span>
       <br />
-      <span>Logradouro: {escola?.endereco?.logradouro}</span>
+      <span>Logradouro: {item?.endereco?.logradouro}</span>
       <br />
-      <span>Número: {escola?.endereco?.numero}</span>
+      <span>Número: {item?.endereco?.numero}</span>
       <br />
-      <span>Complemento: {escola?.endereco?.complemento}</span>
+      <span>Complemento: {item?.endereco?.complemento}</span>
       <br />
-      <span>Bairro: {escola?.endereco?.bairro}</span>
+      <span>Bairro: {item?.endereco?.bairro}</span>
       <br />
-      <span>Cidade: {escola?.endereco?.cidade}</span>
+      <span>Cidade: {item?.endereco?.cidade}</span>
       <br />
-      <span>Território: {escola?.endereco?.territorio}</span>
+      <span>Território: {item?.endereco?.territorio}</span>
     </>
   );
 };
