@@ -1,18 +1,36 @@
 import { Link } from 'react-router-dom';
-import { useForm, Controller } from 'react-hook-form';
+import { useForm, Controller, set } from 'react-hook-form';
 import { useContext } from 'react';
 
 import { EscolasContext } from '../../../context/escolas';
+import { useCep } from '../../../hooks/useCep';
 
 const CadastroEscola = () => {
   const {
     control,
     handleSubmit,
     reset,
+    getValues,
+    setValue,
     formState: { isSubmitting, errors },
   } = useForm();
 
   const { add } = useContext(EscolasContext);
+
+  const { getCep } = useCep();
+
+  const handleCep = async (cep) => {
+    const result = await getCep(cep);
+
+    if (result) {
+      const { cep, bairro, localidade, uf, logradouro } = result;
+      setValue('cep', cep);
+      setValue('bairro', bairro);
+      setValue('cidade', localidade);
+      setValue('estado', uf);
+      setValue('logradouro', logradouro);
+    }
+  };
 
   const onSubmit = async (datas) => {
     const result = await add(datas);
@@ -97,7 +115,9 @@ const CadastroEscola = () => {
           }}
         />
 
-        <button>Buscar</button>
+        <button type="button" onClick={() => handleCep(getValues('cep'))}>
+          Buscar
+        </button>
 
         <label htmlFor="logradouro">Logradouro</label>
         <Controller
@@ -162,10 +182,13 @@ const CadastroEscola = () => {
           render={({ field }) => {
             return (
               <>
-                <input id="bairro" type="text" placeholder="Bairro" {...field} />
-                {errors.bairro && (
-                  <span>{errors.bairro.message}</span>
-                )}
+                <input
+                  id="bairro"
+                  type="text"
+                  placeholder="Bairro"
+                  {...field}
+                />
+                {errors.bairro && <span>{errors.bairro.message}</span>}
               </>
             );
           }}
