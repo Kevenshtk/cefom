@@ -1,4 +1,4 @@
-import { useState, createContext } from 'react';
+import { createContext } from 'react';
 import territorioServices from '../services/territorios';
 import { useCrud } from '../hooks/useCrud';
 

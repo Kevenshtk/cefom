@@ -28,13 +28,28 @@ const Escolas = () => {
           { header: 'Nome', accessor: 'nome' },
         ]}
         renderActions={(item) => (
-          <>
-            <Link to={`/escolas/detalhes/${item.idEscola}`}>Detalhes</Link>
+          <div className="flex items-center justify-end gap-3">
+            <Link 
+              to={`/escolas/detalhes/${item.idEscola}`}
+              className="text-primary hover:underline font-medium transition-colors text-sm"
+            >
+              Detalhes
+            </Link>
 
-            <Link to={`/escolas/atualizar/${item.idEscola}`}>Editar</Link>
+            <Link 
+              to={`/escolas/atualizar/${item.idEscola}`}
+              className="text-text-secondary hover:text-text-primary transition-colors text-sm"
+            >
+              Editar
+            </Link>
 
-            <button onClick={() => handleDelItem(item.idEscola)}>Deletar</button>
-          </>
+            <button 
+              onClick={() => handleDelItem(item.idEscola)}
+              className="text-red-500 hover:text-red-700 transition-colors text-sm font-medium"
+            >
+              Deletar
+            </button>
+          </div>
         )}
       />
 
