@@ -44,7 +44,7 @@ const contentBtn: ContentBtn[] = [
     text: 'Auxiliares',
     dropdown: true,
     itensDropdown: [
-      { text: 'Escolas', url: '/' },
+      { text: 'Escolas', url: '/escolas' },
       { text: 'Territórios', url: '/territorios' },
       { text: 'Salas de Aula', url: '/' },
     ],

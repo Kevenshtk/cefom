@@ -9,7 +9,7 @@ const getTerritorios = async (pageCurrent) => {
   try {
     const response = await api.get('/territorios',{
       params: {
-        page: pageCurrent,
+        page: pageCurrent ?? 1,
       },
     });
     return { success: true, data: response.data };
@@ -27,10 +27,10 @@ const getTerritorioById = async (id) => {
   }
 };
 
-const addTerritorio = async (datas) => {
+const addTerritorio = async (data) => {
   try {
     await api.post('/territorios', {
-      territorio: datas,
+      territorio: data,
     });
 
     return { success: true };
@@ -39,10 +39,10 @@ const addTerritorio = async (datas) => {
   }
 };
 
-const putTerritorio = async (id, datas) => {
+const putTerritorio = async (id, data) => {
   try {
     await api.put(`/territorios/${id}`, {
-      territorio: datas,
+      territorio: data,
     });
 
     return { success: true };
@@ -96,13 +96,13 @@ const deleteBairro = async (id, data) => {
 };
 
 const territorioServices = {
-  get: (pageCurrent) => getTerritorios(pageCurrent) ,
-  getById: (id) => getTerritorioById(id),
-  add: (datas) => addTerritorio(datas),
-  put: (id, datas) => putTerritorio(id, datas),
-  del: (id) => deleteTerritorio(id),
-  addBairro: (id, data) => addBairro(id, data),
-  delBairro: (id, data) => deleteBairro(id, data),
+  get: getTerritorios,
+  getById: getTerritorioById,
+  add: addTerritorio,
+  put: putTerritorio,
+  del: deleteTerritorio,
+  addBairro: addBairro,
+  delBairro: deleteBairro,
 };
 
 export default territorioServices;

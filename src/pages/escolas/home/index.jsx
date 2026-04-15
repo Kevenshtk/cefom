@@ -1,7 +1,7 @@
 import { useContext } from 'react';
 import { Link } from 'react-router-dom';
 
-import { TerritoriosContext } from '../../../context/territorios';
+import { EscolasContext } from '../../../context/escolas';
 
 import alert from '../../../utils/alert';
 
@@ -9,9 +9,9 @@ import ListPageLayout from '../../../components/ListPageLayout';
 import DataTable from '../../../components/DataTable';
 import Pagination from '../../../components/Pagination';
 
-const Territorios = () => {
+const Escolas = () => {
   const { items, remove, page, setPage, totalPages } =
-    useContext(TerritoriosContext);
+    useContext(EscolasContext);
 
   const handleDelItem = async (id) => {
     const result = await alert.delete();
@@ -20,34 +20,31 @@ const Territorios = () => {
   };
 
   return (
-    <ListPageLayout
-      title="Lista de Territórios"
-      createLink="/territorios/cadastro"
-    >
+    <ListPageLayout title="Lista de Escolas" createLink="/escolas/cadastro">
       <DataTable
         data={items}
         columns={[
-          { header: 'ID', accessor: 'idTerritorio' },
-          { header: 'Nome', accessor: 'territorio' },
+          { header: 'ID', accessor: 'idEscola' },
+          { header: 'Nome', accessor: 'nome' },
         ]}
         renderActions={(item) => (
           <div className="flex items-center justify-end gap-3">
             <Link 
-              to={`/territorios/detalhes/${item.idTerritorio}`}
+              to={`/escolas/detalhes/${item.idEscola}`}
               className="text-primary hover:underline font-medium transition-colors text-sm"
             >
               Detalhes
             </Link>
 
             <Link 
-              to={`/territorios/atualizar/${item.idTerritorio}`}
+              to={`/escolas/atualizar/${item.idEscola}`}
               className="text-text-secondary hover:text-text-primary transition-colors text-sm"
             >
               Editar
             </Link>
 
             <button 
-              onClick={() => handleDelItem(item.idTerritorio)}
+              onClick={() => handleDelItem(item.idEscola)}
               className="text-red-500 hover:text-red-700 transition-colors text-sm font-medium"
             >
               Deletar
@@ -61,4 +58,4 @@ const Territorios = () => {
   );
 };
 
-export default Territorios;
+export default Escolas;

@@ -1,109 +1,124 @@
 import { useContext, useEffect } from 'react';
 import { Link, useParams, useNavigate } from 'react-router-dom';
-import { useForm } from 'react-hook-form';
-import { Controller } from 'react-hook-form';
+import { useForm, Controller } from 'react-hook-form';
 
 import { TerritoriosContext } from '../../../context/territorios';
+import alert from '../../../utils/alert';
+import Button from '../../../components/Button';
 
-import Swal from 'sweetalert2';
+const inputClass = "w-full rounded-md border border-border bg-surface px-3 py-2 text-sm text-text-primary focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-shadow disabled:bg-surface-2 disabled:text-text-secondary";
+const labelClass = "block text-sm font-medium text-text-primary mb-1 mt-4";
+const errorClass = "text-red-500 text-xs mt-1 block";
 
 const AtualizarTerritorio = () => {
   const { id } = useParams();
-  const { territorio, buscarTerritorioPorId, atualizarTerritorio } =
-    useContext(TerritoriosContext);
+  const { item, getById, update } = useContext(TerritoriosContext);
   const {
     control,
     handleSubmit,
     reset,
     formState: { isSubmitting, errors },
   } = useForm();
+
   const navigate = useNavigate();
 
   useEffect(() => {
-    buscarTerritorioPorId(id);
+    getById(id);
   }, [id]);
 
   useEffect(() => {
-    if (territorio) {
+    if (item) {
       reset({
-        nome: territorio.territorio,
+        nome: item.territorio,
       });
     }
-  }, [territorio, reset]);
+  }, [item, reset]);
 
   const onSubmit = async (data) => {
-    Swal.fire({
-      title: 'Deseja salvar as alterações?',
-      showDenyButton: true,
-      showCancelButton: true,
-      confirmButtonText: 'Salvar',
-      denyButtonText: `Não Salvar`,
-      cancelButtonText: 'Cancelar',
-    }).then(async (result) => {
-      if (result.isConfirmed) {
-        const result = await atualizarTerritorio(id, data.nome);
-        if (result === true) navigate('/territorios');
-      } else if (result.isDenied) {
-        Swal.fire('As alterações não são salvas.', '', 'info');
-      } else if (result.isDismissed) {
-        navigate('/territorios');
-      }
-    });
+    const result = await alert.update();
+
+    if (result.isConfirmed) {
+      const result = await update(id, data.nome);
+      if (result === true) navigate('/territorios');
+    } else if (result.isDismissed) {
+      navigate('/territorios');
+    }
   };
 
   return (
-    <>
-      <h1>Atualizar Território</h1>
-      <Link to="/territorios">Voltar</Link>
+    <div className="max-w-3xl mx-auto w-full">
+      <Link to="/territorios" className="inline-flex items-center gap-2 mb-6 text-sm font-medium text-text-secondary hover:text-primary transition-colors">
+        <i className="fa-solid fa-arrow-left" /> Voltar
+      </Link>
 
-      <h2>Indentificação</h2>
-      <span>Id: {id}</span>
+      <div className="bg-surface p-6 sm:p-8 rounded-lg shadow-sm border border-border">
+        <div className="flex justify-between items-center mb-2">
+          <h1 className="text-2xl font-bold text-text-primary">Atualizar Território</h1>
+          <span className="text-sm text-text-secondary bg-surface-2 px-3 py-1 rounded-full font-medium">ID: {id}</span>
+        </div>
+        
+        <form onSubmit={handleSubmit(onSubmit)} className="mt-6 border-b border-border pb-8">
+          <h2 className="text-lg font-semibold text-text-primary border-b border-border pb-2 mt-8 mb-4">Identificação</h2>
 
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <label htmlFor="data">Data da Atualização</label>
-        <Controller
-          name="data"
-          control={control}
-          render={({ field }) => <input id='data' type="date" {...field} />}
-        />
+          <label htmlFor="data" className={labelClass}>Data da Atualização</label>
+          <Controller
+            name="data"
+            control={control}
+            render={({ field }) => <input className={inputClass} id="data" type="date" {...field} />}
+          />
 
-        <label htmlFor="nome">Nome do Território</label>
-        <Controller
-          name="nome"
-          control={control}
-          rules={{
-            validate: (value) =>
-              value.trim() !== territorio.territorio.trim() ||
-              'O nome do território deve ser diferente do atual',
-          }}
-          render={({ field }) => {
-            return (
+          <label htmlFor="nome" className={labelClass}>Nome do Território</label>
+          <Controller
+            name="nome"
+            control={control}
+            rules={{
+              validate: (value) =>
+                value.trim() !== item?.territorio?.trim() ||
+                'O nome do território deve ser diferente do atual',
+            }}
+            render={({ field }) => (
               <>
-                <input id='nome' type="text" {...field} />
-                {errors.nome && <span>{errors.nome.message}</span>}
+                <input className={inputClass} id="nome" type="text" {...field} />
+                {errors.nome && <span className={errorClass}>{errors.nome.message}</span>}
               </>
-            );
-          }}
-        />
+            )}
+          />
 
-        <button type="submit">{isSubmitting ? 'Salvando...' : 'Salvar'}</button>
-      </form>
+          <div className="mt-8 flex justify-end">
+            <Button type="submit" disabled={isSubmitting}>
+              {isSubmitting ? 'Salvando...' : 'Salvar'}
+            </Button>
+          </div>
+        </form>
 
-      <span>Bairros:</span>
-      <Link to={`/territorios/atualizar/${id}/bairro`}>Atualizar Bairros</Link>
-      <ul>
-        {territorio?.bairros?.map((bairro) => (
-          <li key={bairro}>{bairro}</li>
-        ))}
-      </ul>
-    </>
+        <div className="mt-8">
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-lg font-semibold text-text-primary">Bairros Relacionados</h2>
+            <Link 
+              to={`/territorios/atualizar/${id}/bairro`}
+              className="inline-flex items-center gap-2 text-sm font-medium text-primary hover:text-blue-700 transition-colors"
+            >
+              <i className="fa-solid fa-plus" /> Adicionar / Editor
+            </Link>
+          </div>
+          
+          <ul className="flex flex-col gap-2">
+            {item?.bairros?.map((bairro) => (
+              <li key={bairro} className="bg-background border border-border px-4 py-2 rounded-md text-sm text-text-primary">
+                {bairro}
+              </li>
+            ))}
+            {!item?.bairros?.length && <p className="text-sm text-text-secondary">Nenhum bairro cadastrado.</p>}
+          </ul>
+        </div>
+      </div>
+    </div>
   );
 };
 
 const AtualizarBairros = () => {
   const { id } = useParams();
-  const { territorio, adicionarBairro, deletarBairro } =
-    useContext(TerritoriosContext);
+  const { item, adicionarBairro, deletarBairro } = useContext(TerritoriosContext);
   const {
     control,
     handleSubmit,
@@ -111,74 +126,73 @@ const AtualizarBairros = () => {
     formState: { isSubmitting, errors },
   } = useForm();
 
-  const onSubmit = async (data) => {
-    Swal.fire({
-      title: 'Deseja adicionar o bairro?',
-      showDenyButton: true,
-      confirmButtonColor: '#21be28',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Sim',
-      denyButtonText: `Não, cancelar`,
-    }).then((result) => {
-      if (result.isConfirmed) {
-        adicionarBairro(id, data.bairro);
-        reset();
-      } else if (result.isDenied) {
-        Swal.fire('O bairro não foi adicionado.', '', 'info');
-      }
-    });
+  const onSubmit = (data) => {
+    const result = adicionarBairro(id, data.bairro);
+    if (result) reset();
   };
 
   return (
-    <>
-      <h1>Atualizar Bairros</h1>
-      <Link to={`/territorios/atualizar/${id}`}>Voltar</Link>
-      <span>Id: {id}</span>
-      <span>Nome: {territorio?.territorio}</span>
-      <span>Bairros:</span>
+    <div className="max-w-3xl mx-auto w-full">
+      <Link to={`/territorios/atualizar/${id}`} className="inline-flex items-center gap-2 mb-6 text-sm font-medium text-text-secondary hover:text-primary transition-colors">
+        <i className="fa-solid fa-arrow-left" /> Voltar para Território
+      </Link>
 
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <label htmlFor="data">Data da Atualização</label>
-        <Controller
-          name="data"
-          control={control}
-          render={({ field }) => <input id='data' type="date" {...field} />}
-        />
+      <div className="bg-surface p-6 sm:p-8 rounded-lg shadow-sm border border-border">
+        <div className="flex justify-between items-center mb-2">
+          <h1 className="text-2xl font-bold text-text-primary">Atualizar Bairros</h1>
+          <span className="text-sm text-text-secondary bg-surface-2 px-3 py-1 rounded-full font-medium">Território: {item?.territorio}</span>
+        </div>
+        
+        <form onSubmit={handleSubmit(onSubmit)} className="mt-6 border-b border-border pb-8">
+          <label htmlFor="data" className={labelClass}>Data da Atualização</label>
+          <Controller
+            name="data"
+            control={control}
+            render={({ field }) => <input className={inputClass} id="data" type="date" {...field} />}
+          />
 
-        <label htmlFor="bairro">Bairro</label>
-        <Controller
-          name="bairro"
-          control={control}
-          defaultValue=""
-          rules={{ required: 'Campo obrigatório' }}
-          render={({ field }) => {
-            return (
+          <label htmlFor="bairro" className={labelClass}>Bairro</label>
+          <Controller
+            name="bairro"
+            control={control}
+            defaultValue=""
+            rules={{ required: 'Campo obrigatório' }}
+            render={({ field }) => (
               <>
-                <input id='bairro' type="text" {...field} />
-                {errors.bairro && <span>{errors.bairro.message}</span>}
+                <input className={inputClass} id="bairro" type="text" {...field} placeholder="Digite o nome do bairro" />
+                {errors.bairro && <span className={errorClass}>{errors.bairro.message}</span>}
               </>
-            );
-          }}
-        />
+            )}
+          />
 
-        <button type="submit">
-          {isSubmitting ? 'Adicionando...' : 'Adicionar Bairro'}
-        </button>
-      </form>
+          <div className="mt-8 flex justify-end">
+             <Button type="submit" disabled={isSubmitting}>
+              {isSubmitting ? 'Adicionando...' : 'Adicionar Bairro'}
+            </Button>
+          </div>
+        </form>
 
-      <ul>
-        {territorio?.bairros?.map((bairro) => {
-          return (
-            <div key={bairro}>
-              <li>{bairro}</li>
-              <button type="button" onClick={() => deletarBairro(id, bairro)}>
-                x
-              </button>
-            </div>
-          );
-        })}
-      </ul>
-    </>
+        <div className="mt-8">
+          <h2 className="text-lg font-semibold text-text-primary mb-4">Gerenciar Bairros</h2>
+          <ul className="flex flex-col gap-2">
+            {item?.bairros?.map((bairro) => (
+              <li key={bairro} className="flex justify-between items-center bg-background border border-border px-4 py-2 rounded-md text-sm text-text-primary">
+                {bairro}
+                <button 
+                  type="button" 
+                  onClick={() => deletarBairro(id, bairro)}
+                  className="text-red-500 hover:text-red-700 transition-colors w-8 h-8 rounded-full flex items-center justify-center hover:bg-red-50"
+                  aria-label="Deletar bairro"
+                >
+                  <i className="fa-solid fa-trash-can text-sm" />
+                </button>
+              </li>
+            ))}
+            {!item?.bairros?.length && <p className="text-sm text-text-secondary">Nenhum bairro cadastrado.</p>}
+          </ul>
+        </div>
+      </div>
+    </div>
   );
 };
 

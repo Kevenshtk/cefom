@@ -1,7 +1,7 @@
 import { Link, useParams } from 'react-router-dom';
 import { useContext, useEffect } from 'react';
 
-import { TerritoriosContext } from '../../../context/territorios';
+import { EscolasContext } from '../../../context/escolas';
 
 const DetailField = ({ label, value }) => (
   <div className="flex flex-col mb-4">
@@ -10,9 +10,9 @@ const DetailField = ({ label, value }) => (
   </div>
 );
 
-const DetalhesTerritorio = () => {
+const DetalhesEscola = () => {
   const { id } = useParams();
-  const { item, getById } = useContext(TerritoriosContext);
+  const { item, getById } = useContext(EscolasContext);
 
   useEffect(() => {
     getById(id);
@@ -24,15 +24,15 @@ const DetalhesTerritorio = () => {
 
   return (
     <div className="max-w-3xl mx-auto w-full">
-      <Link to="/territorios" className="inline-flex items-center gap-2 mb-6 text-sm font-medium text-text-secondary hover:text-primary transition-colors">
+      <Link to="/escolas" className="inline-flex items-center gap-2 mb-6 text-sm font-medium text-text-secondary hover:text-primary transition-colors">
         <i className="fa-solid fa-arrow-left" /> Voltar
       </Link>
 
       <div className="bg-surface p-6 sm:p-8 rounded-lg shadow-sm border border-border">
         <div className="flex justify-between items-center mb-6">
-          <h1 className="text-2xl font-bold text-text-primary">Detalhes do Território</h1>
+          <h1 className="text-2xl font-bold text-text-primary">Detalhes da Escola</h1>
           <Link 
-            to={`/territorios/atualizar/${id}`}
+            to={`/escolas/atualizar/${id}`}
             className="inline-flex items-center gap-2 text-sm font-medium text-primary hover:text-blue-700 transition-colors bg-surface-2 px-4 py-2 rounded-md"
           >
             <i className="fa-solid fa-pen" /> Atualizar
@@ -41,22 +41,24 @@ const DetalhesTerritorio = () => {
 
         <h2 className="text-lg font-semibold text-text-primary border-b border-border pb-2 mb-4 mt-8">Identificação</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6">
-          <DetailField label="ID do Território" value={item?.idTerritorio} />
-          <DetailField label="Nome" value={item?.territorio} />
+          <DetailField label="ID da Escola" value={item?.idEscola} />
+          <DetailField label="Nome" value={item?.nome} />
+          <DetailField label="Tipo" value={item?.tipo} />
         </div>
 
-        <h2 className="text-lg font-semibold text-text-primary border-b border-border pb-2 mb-4 mt-8">Bairros</h2>
-        <ul className="flex flex-col gap-2 border border-border bg-background rounded-md p-4">
-          {item?.bairros?.map((bairro) => (
-            <li key={bairro} className="text-sm text-text-primary border-b border-border last:border-0 pb-2 mb-2 last:mb-0 last:pb-0">
-              <i className="fa-solid fa-location-dot text-text-secondary mr-2" /> {bairro}
-            </li>
-          ))}
-          {!item?.bairros?.length && <p className="text-sm text-text-secondary">Nenhum bairro registrado.</p>}
-        </ul>
+        <h2 className="text-lg font-semibold text-text-primary border-b border-border pb-2 mb-4 mt-8">Endereço</h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6">
+          <DetailField label="CEP" value={item?.endereco?.cep} />
+          <DetailField label="Logradouro" value={item?.endereco?.logradouro} />
+          <DetailField label="Número" value={item?.endereco?.numero} />
+          <DetailField label="Complemento" value={item?.endereco?.complemento} />
+          <DetailField label="Bairro" value={item?.endereco?.bairro} />
+          <DetailField label="Cidade" value={item?.endereco?.cidade} />
+          <DetailField label="Território" value={item?.endereco?.territorio} />
+        </div>
       </div>
     </div>
   );
 };
 
-export default DetalhesTerritorio;
+export default DetalhesEscola;

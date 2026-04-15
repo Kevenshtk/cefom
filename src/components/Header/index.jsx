@@ -13,23 +13,28 @@ const Header = () => {
   };
 
   return (
-    <header>
-      <nav>
-        <ul>
+    <header className="bg-surface shadow-sm sticky top-0 z-50">
+      <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+        <ul className="flex items-center gap-4">
           {contentBtn.map((item, index) => (
-            <li key={index} style={{ position: 'relative' }}>
+            <li key={index} className="relative">
               <Button
-                className="btn-simples"
-                text={item.text}
+                variant={item.dropdown && openDropdown === index ? 'secondary' : 'primary'}
                 onClick={
                   item.dropdown ? () => toggleDropdown(index) : undefined
                 }
-              />
-              {item.dropdown && <i className="fa-solid fa-angle-down"></i>}
+              >
+                <div className="flex items-center gap-2">
+                  {item.text}
+                  {item.dropdown && <i className="fa-solid fa-angle-down text-sm"></i>}
+                </div>
+              </Button>
 
               {item.dropdown &&
                 openDropdown === index &&
-                item.itensDropdown && <Dropdown items={item.itensDropdown} setOpenDropdown={setOpenDropdown}/>}
+                item.itensDropdown && (
+                  <Dropdown items={item.itensDropdown} setOpenDropdown={setOpenDropdown}/>
+                )}
             </li>
           ))}
         </ul>
