@@ -34,7 +34,7 @@ const EnderecoSection = ({
         <Button
           type="button"
           variant="secondary"
-          className="mb-0.5"
+          className={errors.cep ? 'mb-5' : 'mb-0.5'}
           onClick={() => handleCep(getValues('cep'))}
         >
           Buscar

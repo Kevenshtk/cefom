@@ -40,6 +40,7 @@ const IdentificacaoSection = ({ control, errors }) => {
       <Controller
         name="dataNascimento"
         control={control}
+        rules={{ required: 'Campo obrigatório' }}
         render={({ field }) => (
           <Input
             label="Data de Nascimento"
