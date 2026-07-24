@@ -114,7 +114,7 @@ const Inscricao = () => {
               render={({ field }) => (
                 <Input
                   label="CPF"
-                  maxLength={11}
+                  maxLength={14}
                   placeholder="xxx.xxx.xxx-xx"
                   error={errors.cpf?.message}
                   {...field}
