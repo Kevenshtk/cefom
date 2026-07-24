@@ -26,6 +26,13 @@ const showError = (msg) => {
   });
 };
 
+const showInfo = (msg) => {
+  Toast.fire({
+    icon: 'info',
+    title: msg,
+  });
+};
+
 const confirmDelete = async () => {
   const result = await Swal.fire({
     title: 'Deseja excluir o registro?',
@@ -59,6 +66,7 @@ const confirmUpdate = async () => {
 
 const alert = {
   success: showSuccess,
+  info: showInfo,
   error: showError,
   delete: confirmDelete,
   update: confirmUpdate,
