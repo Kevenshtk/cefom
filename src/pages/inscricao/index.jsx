@@ -14,6 +14,30 @@ import { useCpf } from '../../hooks/useCpf';
 import alert from '../../utils/alert';
 
 const Inscricao = () => {
+  const defaultValues = {
+    cpf: '',
+    dataInscricao: '',
+    nome: '',
+    dataNascimento: '',
+    genero: '',
+    cep: '',
+    logradouro: '',
+    numero: '',
+    complemento: '',
+    bairro: '',
+    cidade: '',
+    estado: '',
+    idEscola: '',
+    serie: '',
+    periodo: '',
+    ra: '',
+    curso: '',
+    telAdolescente: '',
+    telResponsavel: '',
+    telExtra: '',
+    observacoes: '',
+  };
+
   const {
     control,
     handleSubmit,
@@ -21,7 +45,7 @@ const Inscricao = () => {
     getValues,
     setValue,
     formState: { isSubmitting, errors },
-  } = useForm();
+  } = useForm({ defaultValues });
 
   const { getCep } = useCep();
   const { getCpf, loading } = useCpf();
@@ -44,10 +68,10 @@ const Inscricao = () => {
       alert.error('Por favor, insira um CPF para buscar.');
       return;
     }
-    
+
     const result = await getCpf(cpf);
 
-    if(!result.success) {
+    if (!result.success) {
       // alert.error(result.message); - precisa corrigir a mensagem de erro
       alert.error('Erro ao buscar CPF. Tente novamente mais tarde.');
       return;
@@ -94,7 +118,13 @@ const Inscricao = () => {
   const onSubmit = async (data) => {
     const result = await inscricaoService.add(data, data.foto);
 
-    console.log(data);
+    if (!result.success) {
+      alert.error(result.message);
+      return;
+    }
+
+    alert.success(result.message);
+    reset(defaultValues);
   };
 
   return (
@@ -147,10 +177,7 @@ const Inscricao = () => {
           )}
         />
 
-        <IdentificacaoSection
-          control={control}
-          errors={errors}
-        />
+        <IdentificacaoSection control={control} errors={errors} />
 
         <EnderecoSection
           control={control}
@@ -159,20 +186,11 @@ const Inscricao = () => {
           handleCep={handleCep}
         />
 
-        <EscolaridadeSection
-          control={control}
-          errors={errors}
-        />
+        <EscolaridadeSection control={control} errors={errors} />
 
-        <TelefonesSection
-          control={control}
-          errors={errors}
-        />
+        <TelefonesSection control={control} errors={errors} />
 
-        <ObservacoesSection
-          control={control}
-          errors={errors}
-        />
+        <ObservacoesSection control={control} errors={errors} />
 
         <div className="mt-8 flex justify-end">
           <Button type="submit" disabled={isSubmitting}>
