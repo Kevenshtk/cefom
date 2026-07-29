@@ -8,6 +8,16 @@ const EscolaridadeSection = ({ control, errors }) => {
   const [escolas, setEscolas] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  const series = [
+    '7º Ano',
+    '8º Ano',
+    '9º Ano',
+    '1º Série',
+    '2º Série',
+    '3º Série',
+  ];
+  const periodos = ['Manhã', 'Tarde', 'Noite', 'Integral'];
+
   useEffect(() => {
     const fetchAllEscolas = async () => {
       try {
@@ -18,15 +28,18 @@ const EscolaridadeSection = ({ control, errors }) => {
         while (hasMore) {
           const result = await escolaServices.get(currentPage);
 
-          if(!result.success) {
-            alert.error(result.message || 'Erro ao carregar escolas. Tente novamente mais tarde.');
+          if (!result.success) {
+            alert.error(
+              result.message ||
+                'Erro ao carregar escolas. Tente novamente mais tarde.'
+            );
             break;
           }
 
           if (result.success && result.data) {
             const content = result.data.content || [];
             allEscolas = [...allEscolas, ...content];
-            
+
             const totalPages = result.data.totalPages || 1;
 
             if (currentPage + 1 >= totalPages || content.length === 0) {
@@ -34,12 +47,11 @@ const EscolaridadeSection = ({ control, errors }) => {
             } else {
               currentPage++;
             }
-
           } else {
             hasMore = false;
           }
         }
-        
+
         setEscolas(allEscolas);
       } finally {
         setLoading(false);
@@ -85,12 +97,16 @@ const EscolaridadeSection = ({ control, errors }) => {
         defaultValue=""
         rules={{ required: 'Campo obrigatório' }}
         render={({ field }) => (
-          <Input
-            label="Série"
-            placeholder="9º ano"
-            error={errors.serie?.message}
-            {...field}
-          />
+          <Select label="Série" error={errors.serie?.message} {...field}>
+            <option value="" disabled>
+              Selecione uma série
+            </option>
+            {series.map((s) => (
+              <option key={s} value={s}>
+                {s}
+              </option>
+            ))}
+          </Select>
         )}
       />
 
@@ -100,12 +116,16 @@ const EscolaridadeSection = ({ control, errors }) => {
         defaultValue=""
         rules={{ required: 'Campo obrigatório' }}
         render={({ field }) => (
-          <Input
-            label="Período"
-            placeholder="Manhã"
-            error={errors.periodo?.message}
-            {...field}
-          />
+          <Select label="Período" error={errors.periodo?.message} {...field}>
+            <option value="" disabled>
+              Selecione um período
+            </option>
+            {periodos.map((p) => (
+              <option key={p} value={p}>
+                {p}
+              </option>
+            ))}
+          </Select>
         )}
       />
 
