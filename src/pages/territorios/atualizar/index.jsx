@@ -127,7 +127,7 @@ const AtualizarBairros = () => {
   } = useForm();
 
   const onSubmit = (data) => {
-    const result = adicionarBairro(id, data.bairro);
+    const result = adicionarBairro(id, data);
     if (result) reset();
   };
 
