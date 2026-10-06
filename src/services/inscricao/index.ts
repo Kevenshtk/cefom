@@ -86,7 +86,6 @@ const buildRequestForm = (data: InscricaoFormData): BuildRequestFormData => ({
 
 const addInscricao = async (
   data: InscricaoFormData,
-  file: File | null = null
 ): Promise<CreateInscricaoResponse> => {
   try {
     const payload = buildRequestForm(data);
@@ -98,18 +97,18 @@ const addInscricao = async (
       new Blob([JSON.stringify(payload)], { type: 'application/json' })
     );
 
-    if (file) {
-      formData.append('file', file);
+    if (data.foto) {
+      formData.append('file', data.foto);
     }
 
-    const response = await api.post<InscricaoApiDetails>(
+    await api.post<InscricaoApiDetails>(
       '/adolescentes/inscricoes',
       formData
     );
 
     return {
       success: true,
-      message: response.data.message || 'Inscrição realizada com sucesso.',
+      message: 'Inscrição realizada com sucesso.',
     };
   } catch (error) {
     return handleError(error, 'Erro ao realizar inscrição');

@@ -116,7 +116,7 @@ const Inscricao = () => {
   };
 
   const onSubmit = async (data) => {
-    const result = await inscricaoService.add(data, data.foto);
+    const result = await inscricaoService.add(data);
 
     if (!result.success) {
       alert.error(result.message);
