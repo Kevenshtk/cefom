@@ -1,9 +1,9 @@
 import axios from 'axios';
 import api from '../api';
+
 import type { InscricaoApiDetails } from '../../types/api/inscricao.types';
+import type { ServiceError, ErrorResponse } from '../../types/services/global.types';
 import type {
-  ServiceError,
-  ErrorResponse,
   BuildRequestFormData,
   CreateInscricaoResponse,
 } from '../../types/services/inscricao.types';

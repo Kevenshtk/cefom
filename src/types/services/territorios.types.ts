@@ -1,3 +1,5 @@
+import type { ServiceError, ServiceSuccess } from './global.types';
+
 import type {
   TerritorioApiList,
   TerritorioApiDetails,
@@ -5,16 +7,6 @@ import type {
 
 export interface ErrorResponse {
   message?: string;
-}
-
-export interface ServiceError {
-  success: false;
-  message: string;
-}
-
-export interface ServiceSuccess<T> {
-  success: true;
-  data: T;
 }
 
 export type TerritorioListResponse =

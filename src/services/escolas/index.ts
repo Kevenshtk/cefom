@@ -1,9 +1,8 @@
 import axios from 'axios';
 import api from '../api';
 
+import type { ServiceError, ErrorResponse } from '../../types/services/global.types';
 import type {
-  ServiceError,
-  ErrorResponse,
   CreateEscolaRequest,
   EscolaListResponse,
   EscolaDetailsResponse,

@@ -5,10 +5,8 @@ import type {
   TerritorioApiList,
   TerritorioApiDetails,
 } from '../../types/api/territorios.types';
-
+import type { ServiceError, ErrorResponse } from '../../types/services/global.types';
 import type {
-  ServiceError,
-  ErrorResponse,
   TerritorioListResponse,
   TerritorioDetailsResponse,
   CreateTerritorioResponse,

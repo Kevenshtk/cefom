@@ -1,18 +1,5 @@
+import type { ServiceError, ServiceSuccess } from './global.types';
 import type { EscolaApiList, EscolaApiDetails, EscolaEdereco } from '../api/escolas.types';
-
-export interface ErrorResponse {
-  message?: string;
-}
-
-export interface ServiceError {
-  success: false;
-  message: string;
-}
-
-export interface ServiceSuccess<T> {
-  success: true;
-  data: T;
-}
 
 export interface CreateEscolaRequest {
   // data: string;
