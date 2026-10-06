@@ -1,6 +1,7 @@
 import axios from 'axios';
+import type { CepApiDetails, CepResponse } from '../types/cep.types';
 
-export const buscarCep = async (cep) => {
+export const buscarCep = async (cep: string): Promise<CepResponse> => {
   try {
     const cepLimpo = cep.replace(/\D/g, '');
 
@@ -8,16 +9,16 @@ export const buscarCep = async (cep) => {
       return { success: false, message: 'CEP inválido' };
     }
 
-    const response = await axios.get(
+    const response = await axios.get<CepApiDetails>(
       `https://viacep.com.br/ws/${cepLimpo}/json/`
     );
 
-    if (response.data.erro) {
+    if (!response.data) {
       return { success: false, message: 'CEP não encontrado' };
     }
 
     return { success: true, data: response.data };
-  } catch (error) {
+  } catch {
     return { success: false, message: 'Erro ao buscar CEP' };
   }
 };
