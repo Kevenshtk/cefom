@@ -7,7 +7,7 @@ import type { EscolaEdereco } from '../../types/api/escolas.types';
 
 type DadosUltimaInscricao = InscricaoApiStatus['dadosUltimaInscricao'];
 
-interface MappedCpfDataResponse {
+export interface MappedCpfDataResponse {
   adolescente: Pick<InscricaoAdolescente, 'nome' | 'dataNascimento' | 'genero'>;
   endereco: EscolaEdereco;
   escolaridade: Omit<InscriacaoEscolaridade, 'escola'> & {

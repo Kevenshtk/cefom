@@ -1,9 +1,10 @@
 import { buscarCep } from '../services/cepService';
 import alert from '../utils/alert';
 
-export const useCep = () => {
+import type { CepApiDetails } from '../types/cep.types';
 
-  const getCep = async (cep) => {
+export const useCep = () => {
+  const getCep = async (cep: string): Promise<CepApiDetails | null> => {
     const result = await buscarCep(cep);
 
     if (result.success) {

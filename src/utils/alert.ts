@@ -1,4 +1,4 @@
-import Swal from 'sweetalert2';
+import Swal, { type SweetAlertResult } from 'sweetalert2';
 
 const Toast = Swal.mixin({
   toast: true,
@@ -12,28 +12,28 @@ const Toast = Swal.mixin({
   },
 });
 
-const showSuccess = (msg) => {
+const showSuccess = (msg: string) => {
   Toast.fire({
     icon: 'success',
     title: msg,
   });
 };
 
-const showError = (msg) => {
+const showError = (msg: string) => {
   Toast.fire({
     icon: 'warning',
     title: msg,
   });
 };
 
-const showInfo = (msg) => {
+const showInfo = (msg: string) => {
   Toast.fire({
     icon: 'info',
     title: msg,
   });
 };
 
-const confirmDelete = async () => {
+const confirmDelete = async (): Promise<boolean> => {
   const result = await Swal.fire({
     title: 'Deseja excluir o registro?',
     icon: 'warning',
@@ -47,7 +47,7 @@ const confirmDelete = async () => {
   return result.isConfirmed;
 };
 
-const confirmUpdate = async () => {
+const confirmUpdate = async (): Promise<SweetAlertResult> => {
   const result = await Swal.fire({
     title: 'Deseja salvar as alterações?',
     showDenyButton: true,

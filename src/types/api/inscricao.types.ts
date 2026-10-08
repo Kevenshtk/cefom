@@ -56,8 +56,10 @@ export interface InscricaoListItem {
   };
 }
 
+export type CpfStatus = 'NOVO' | 'CRIAR' | 'ATIVO';
+
 export interface InscricaoApiStatus {
-  status: string;
+  status: CpfStatus;
   dadosUltimaInscricao: {
     inscricao: number | null; // talvez possa ser o ID da inscrição
     documento: InscricaoDocumento;
