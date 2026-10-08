@@ -99,13 +99,13 @@ const Inscricao = () => {
         complemento: info.endereco.complemento,
         bairro: info.endereco.bairro,
         cidade: info.endereco.cidade,
-        estado: info.endereco.uf,
+        estado: info.endereco.estado,
 
         idEscola: info.escolaridade.idEscola,
         escola: info.escolaridade.escola,
         serie: info.escolaridade.serie,
         periodo: info.escolaridade.periodo,
-        ra: info.escolaridade.ra,
+        ra: info.escolaridade.raEscolar,
         curso: info.escolaridade.curso,
 
         telAdolescente: info.telefones.adolescente,

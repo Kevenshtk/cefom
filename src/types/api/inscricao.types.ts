@@ -13,7 +13,7 @@ interface InscricaoDocumento {
   cpf: string;
 }
 
-interface InscricaoAdolescente {
+export interface InscricaoAdolescente {
   idAdolescente: number;
   nome: string;
   genero: string;
@@ -22,7 +22,7 @@ interface InscricaoAdolescente {
   situacao: string;
 }
 
-interface InscriacaoEscolaridade {
+export interface InscriacaoEscolaridade {
   idEscolaridade: number;
   escola: EscolaListItem;
   serie: string;

@@ -1,9 +1,5 @@
 import type { ServiceError } from './global.types';
 
-export interface ErrorResponse {
-  message?: string;
-}
-
 export interface BuildRequestFormData {
   inscricao: {
     dataInscricao: string;
