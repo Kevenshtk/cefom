@@ -1,4 +1,5 @@
 import type { EscolaApiEndereco, EscolaListItem } from './escolas.types';
+import type { CpfStatus } from '../cpf.types';
 
 interface InscricaoFoto {
   IdFotoAdolescente: number;
@@ -55,8 +56,6 @@ export interface InscricaoListItem {
     telefoneExtra?: InscriacaoTelefone;
   };
 }
-
-export type CpfStatus = 'NOVO' | 'CRIAR' | 'ATIVO';
 
 export interface InscricaoApiStatus {
   status: CpfStatus;

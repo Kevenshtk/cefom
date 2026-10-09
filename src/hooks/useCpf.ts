@@ -3,20 +3,7 @@ import { useState } from 'react';
 import buscarCpf from '../services/cpfService';
 import { mapCpfData } from '../services/mappers/cpfMapper';
 
-import type { CpfStatus } from '../types/api/inscricao.types';
-import type { MappedCpfDataResponse } from '../services/mappers/cpfMapper';
-
-interface GetCpfSuccess {
-  success: true;
-  status: CpfStatus;
-  message: string;
-  data: MappedCpfDataResponse | null;
-}
-
-interface GetCpfError {
-  success: false;
-  message: string;
-}
+import type { CpfStatus, GetCpfSuccess, GetCpfError } from '../types/cpf.types';
 
 const messages: Record<CpfStatus, string> = {
   NOVO: 'CPF não cadastrado. Preencha o formulário.',

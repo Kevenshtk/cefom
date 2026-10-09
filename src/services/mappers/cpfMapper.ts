@@ -1,25 +1,7 @@
-import type {
-  InscricaoApiStatus,
-  InscricaoAdolescente,
-  InscriacaoEscolaridade,
-} from '../../types/api/inscricao.types';
-import type { EscolaEdereco } from '../../types/api/escolas.types';
+import type { InscricaoApiStatus } from '../../types/api/inscricao.types';
+import type { MappedCpfDataResponse } from '../../types/cpf.types';
 
 type DadosUltimaInscricao = InscricaoApiStatus['dadosUltimaInscricao'];
-
-export interface MappedCpfDataResponse {
-  adolescente: Pick<InscricaoAdolescente, 'nome' | 'dataNascimento' | 'genero'>;
-  endereco: EscolaEdereco;
-  escolaridade: Omit<InscriacaoEscolaridade, 'escola'> & {
-    idEscola: number;
-    escola: string;
-  };
-  telefones: {
-    adolescente: string;
-    responsavel: string;
-    extra: string | undefined;
-  };
-}
 
 export const mapCpfData = (
   data: DadosUltimaInscricao
