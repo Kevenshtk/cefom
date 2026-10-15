@@ -1,7 +1,7 @@
 import { Link, useParams } from 'react-router-dom';
-import { useContext, useEffect } from 'react';
+import { useEffect } from 'react';
 
-import { EscolasContext } from '../../../context/escolas';
+import { useEscolasContext } from '../../../hooks/useEscolasContext';
 
 const DetailField = ({ label, value }) => (
   <div className="flex flex-col mb-4">
@@ -12,7 +12,7 @@ const DetailField = ({ label, value }) => (
 
 const DetalhesEscola = () => {
   const { id } = useParams();
-  const { item, getById } = useContext(EscolasContext);
+  const { item, getById } = useEscolasContext();
 
   useEffect(() => {
     getById(id);

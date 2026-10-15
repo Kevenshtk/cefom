@@ -1,14 +1,14 @@
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import { useForm, Controller } from 'react-hook-form';
-import { useContext, useEffect } from 'react';
+import { useEffect } from 'react';
 
-import { EscolasContext } from '../../../context/escolas';
+import { useEscolasContext } from '../../../hooks/useEscolasContext';
 import alert from '../../../utils/alert';
 import Button from '../../../components/Button';
 
 const AtualizarEscola = () => {
   const { id } = useParams();
-  const { item, getById, update } = useContext(EscolasContext);
+  const { item, getById, update } = useEscolasContext();
   const {
     control,
     handleSubmit,

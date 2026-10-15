@@ -1,8 +1,7 @@
 import { Link } from 'react-router-dom';
 import { useForm, Controller } from 'react-hook-form';
-import { useContext } from 'react';
 
-import { EscolasContext } from '../../../context/escolas';
+import { useEscolasContext } from '../../../hooks/useEscolasContext';
 import { useCep } from '../../../hooks/useCep';
 import Button from '../../../components/Button';
 
@@ -16,7 +15,7 @@ const CadastroEscola = () => {
     formState: { isSubmitting, errors },
   } = useForm();
 
-  const { add } = useContext(EscolasContext);
+  const { add } = useEscolasContext();
 
   const { getCep } = useCep();
 

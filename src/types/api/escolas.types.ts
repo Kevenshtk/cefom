@@ -5,6 +5,7 @@ export interface EscolaListItem {
 
 export interface EscolaApiList {
     content: EscolaListItem[];
+    totalPages: number;
 }
 
 export interface EscolaEdereco {

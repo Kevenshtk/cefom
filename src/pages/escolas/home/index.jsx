@@ -1,7 +1,6 @@
-import { useContext } from 'react';
 import { Link } from 'react-router-dom';
 
-import { EscolasContext } from '../../../context/escolas';
+import { useEscolasContext } from '../../../hooks/useEscolasContext';
 
 import alert from '../../../utils/alert';
 
@@ -11,7 +10,7 @@ import Pagination from '../../../components/Pagination';
 
 const Escolas = () => {
   const { items, remove, page, setPage, totalPages } =
-    useContext(EscolasContext);
+    useEscolasContext();
 
   const handleDelItem = async (id) => {
     const result = await alert.delete();

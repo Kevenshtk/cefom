@@ -12,7 +12,7 @@ import type {
 } from '../../types/services/escolas.types';
 import type { EscolaEdereco, EscolaApiList, EscolaApiDetails } from '../../types/api/escolas.types';
 
-interface EscolaFormData {
+export interface EscolaFormData {
   nome: string;
   tipo: string;
   cep: string;
