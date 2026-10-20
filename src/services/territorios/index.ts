@@ -15,12 +15,8 @@ import type {
   UpdateBairroResponse,
 } from '../../types/services/territorios.types';
 
-interface TerritorioFormData {
+export interface TerritorioFormData {
   nome: string;
-}
-
-interface BairroFormData {
-  bairro: string;
 }
 
 const handleError = (error: unknown, fallback: string): ServiceError => {
@@ -121,14 +117,14 @@ const updateBairro = async (
 
 const addBairro = async (
   idTerritorio: number,
-  data: BairroFormData
+  data: string
 ): Promise<UpdateBairroResponse> => {
   const territorio = await getTerritorioById(idTerritorio);
 
   if (!territorio.success) return territorio;
 
   const bairrosAtuais: string[] = territorio.data?.bairros ?? [];
-  const novosBairros: string[] = [...bairrosAtuais, data.bairro];
+  const novosBairros: string[] = [...bairrosAtuais, data];
 
   return await updateBairro(idTerritorio, novosBairros);
 };

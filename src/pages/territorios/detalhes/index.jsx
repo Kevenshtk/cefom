@@ -1,7 +1,7 @@
 import { Link, useParams } from 'react-router-dom';
 import { useContext, useEffect } from 'react';
 
-import { TerritoriosContext } from '../../../context/territorios';
+import { useTerritoriosContext } from '../../../hooks/useTerritoriosContext';
 
 const DetailField = ({ label, value }) => (
   <div className="flex flex-col mb-4">
@@ -12,7 +12,7 @@ const DetailField = ({ label, value }) => (
 
 const DetalhesTerritorio = () => {
   const { id } = useParams();
-  const { item, getById } = useContext(TerritoriosContext);
+  const { item, getById } = useTerritoriosContext();
 
   useEffect(() => {
     getById(id);

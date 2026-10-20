@@ -1,7 +1,6 @@
-import { useContext } from 'react';
 import { Link } from 'react-router-dom';
 
-import { TerritoriosContext } from '../../../context/territorios';
+import { useTerritoriosContext } from '../../../hooks/useTerritoriosContext';
 
 import alert from '../../../utils/alert';
 
@@ -11,7 +10,7 @@ import Pagination from '../../../components/Pagination';
 
 const Territorios = () => {
   const { items, remove, page, setPage, totalPages } =
-    useContext(TerritoriosContext);
+    useTerritoriosContext();
 
   const handleDelItem = async (id) => {
     const result = await alert.delete();

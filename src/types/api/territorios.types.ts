@@ -5,6 +5,7 @@ export interface TerritorioListItem {
 
 export interface TerritorioApiList {
   content: TerritorioListItem[];
+  totalPages: number;
 }
 
 export interface TerritorioApiDetails {

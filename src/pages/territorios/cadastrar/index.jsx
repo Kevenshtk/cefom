@@ -1,8 +1,7 @@
 import { Link } from 'react-router-dom';
 import { useForm, Controller } from 'react-hook-form';
-import { useContext } from 'react';
 
-import { TerritoriosContext } from '../../../context/territorios';
+import { useTerritoriosContext } from '../../../hooks/useTerritoriosContext';
 import Button from '../../../components/Button';
 
 const CadastroTerritorio = () => {
@@ -13,7 +12,7 @@ const CadastroTerritorio = () => {
     formState: { isSubmitting, errors },
   } = useForm();
 
-  const { add } = useContext(TerritoriosContext);
+  const { add } = useTerritoriosContext();
 
   const onSubmit = async (data) => {
     const result = await add(data.nome);

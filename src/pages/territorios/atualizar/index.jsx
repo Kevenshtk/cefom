@@ -1,8 +1,8 @@
-import { useContext, useEffect } from 'react';
+import { useEffect } from 'react';
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import { useForm, Controller } from 'react-hook-form';
 
-import { TerritoriosContext } from '../../../context/territorios';
+import { useTerritoriosContext } from '../../../hooks/useTerritoriosContext';
 import alert from '../../../utils/alert';
 import Button from '../../../components/Button';
 
@@ -12,7 +12,7 @@ const errorClass = "text-red-500 text-xs mt-1 block";
 
 const AtualizarTerritorio = () => {
   const { id } = useParams();
-  const { item, getById, update } = useContext(TerritoriosContext);
+  const { item, getById, update } = useTerritoriosContext();
   const {
     control,
     handleSubmit,
@@ -118,7 +118,7 @@ const AtualizarTerritorio = () => {
 
 const AtualizarBairros = () => {
   const { id } = useParams();
-  const { item, adicionarBairro, deletarBairro } = useContext(TerritoriosContext);
+  const { item, adicionarBairro, deletarBairro } = useTerritoriosContext();
   const {
     control,
     handleSubmit,
@@ -127,7 +127,7 @@ const AtualizarBairros = () => {
   } = useForm();
 
   const onSubmit = (data) => {
-    const result = adicionarBairro(id, data);
+    const result = adicionarBairro(id, data.bairro);
     if (result) reset();
   };
 

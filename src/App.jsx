@@ -1,7 +1,7 @@
 import { BrowserRouter as Router } from 'react-router-dom';
 
 import MainRoutes from './routes.jsx';
-import { TerritoriosContextProvider } from './context/territorios.jsx';
+import { TerritoriosContextProvider } from './context/territorios/territoriosContextProvider.tsx';
 import { EscolasContextProvider } from './context/escolas/escolasContextProvider.tsx';
 
 import './App.css';
