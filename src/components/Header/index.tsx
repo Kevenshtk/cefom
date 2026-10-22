@@ -3,12 +3,12 @@ import { useState } from 'react';
 import { contentBtn } from './contentBtnHeader';
 
 import Button from '../Button';
-import Dropdown from '../Dropdown';
+import Dropdown from '../Dropdown/index.tsx';
 
 const Header = () => {
-  const [openDropdown, setOpenDropdown] = useState(null);
+  const [openDropdown, setOpenDropdown] = useState<number | null>(null);
 
-  const toggleDropdown = (index) => {
+  const toggleDropdown = (index: number) => {
     setOpenDropdown((prev) => (prev === index ? null : index));
   };
 
@@ -19,21 +19,30 @@ const Header = () => {
           {contentBtn.map((item, index) => (
             <li key={index} className="relative">
               <Button
-                variant={item.dropdown && openDropdown === index ? 'secondary' : 'primary'}
+                variant={
+                  item.dropdown && openDropdown === index
+                    ? 'secondary'
+                    : 'primary'
+                }
                 onClick={
                   item.dropdown ? () => toggleDropdown(index) : undefined
                 }
               >
                 <div className="flex items-center gap-2">
                   {item.text}
-                  {item.dropdown && <i className="fa-solid fa-angle-down text-sm"></i>}
+                  {item.dropdown && (
+                    <i className="fa-solid fa-angle-down text-sm"></i>
+                  )}
                 </div>
               </Button>
 
               {item.dropdown &&
                 openDropdown === index &&
                 item.itensDropdown && (
-                  <Dropdown items={item.itensDropdown} setOpenDropdown={setOpenDropdown}/>
+                  <Dropdown
+                    items={item.itensDropdown}
+                    setOpenDropdown={setOpenDropdown}
+                  />
                 )}
             </li>
           ))}

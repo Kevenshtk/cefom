@@ -1,6 +1,18 @@
 import { Link } from 'react-router-dom';
 
-const ListPageLayout = ({ title, createLink, children }) => {
+import type { ReactNode } from 'react';
+
+type ListPageLayoutProps = {
+  title: string;
+  createLink: string;
+  children: ReactNode;
+};
+
+const ListPageLayout = ({
+  title,
+  createLink,
+  children,
+}: ListPageLayoutProps) => {
   return (
     <div className="flex flex-col gap-6">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
@@ -8,7 +20,7 @@ const ListPageLayout = ({ title, createLink, children }) => {
           {title}
         </h1>
 
-        <Link 
+        <Link
           to={createLink}
           className="inline-flex items-center justify-center font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 rounded-md px-4 py-2 shadow-sm bg-primary text-surface hover:opacity-90 focus:ring-primary w-fit"
         >
@@ -16,9 +28,7 @@ const ListPageLayout = ({ title, createLink, children }) => {
         </Link>
       </div>
 
-      <div className="flex flex-col gap-4">
-        {children}
-      </div>
+      <div className="flex flex-col gap-4">{children}</div>
     </div>
   );
 };

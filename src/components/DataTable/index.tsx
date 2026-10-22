@@ -1,4 +1,16 @@
-const DataTable = ({ data, columns, renderActions }) => {
+import type { ReactNode } from "react";
+
+type DataTableProps<T> = {
+  data: T[];
+  columns: {
+    header: string;
+    accessor: keyof T;
+  }[];
+  renderActions: (item: T) => ReactNode;
+  keyField: keyof T;
+}
+
+const DataTable = <T,>({ data, columns, renderActions, keyField }: DataTableProps<T>) => {
   if (!data) return <p className="text-text-secondary py-4">Erro ao carregar dados.</p>;
 
   return (
@@ -17,10 +29,10 @@ const DataTable = ({ data, columns, renderActions }) => {
 
         <tbody className="divide-y divide-border text-text-primary">
           {data.map((item) => (
-            <tr key={item.id} className="hover:bg-surface-2 transition-colors">
+            <tr key={String(item[keyField])} className="hover:bg-surface-2 transition-colors">
               {columns.map((col) => (
                 <td key={col.header} className="px-6 py-4 whitespace-nowrap text-sm">
-                  {item[col.accessor]}
+                  {String(item[col.accessor])}
                 </td>
               ))}
               <td className="px-6 py-4 whitespace-nowrap text-right">
