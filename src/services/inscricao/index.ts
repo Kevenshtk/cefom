@@ -1,38 +1,13 @@
 import axios from 'axios';
 import api from '../api';
 
+import type { InscricaoFormData } from "../../components/Forms/inscricao/types"
 import type { InscricaoApiDetails } from '../../types/api/inscricao.types';
 import type { ServiceError, ErrorResponse } from '../../types/services/global.types';
 import type {
   BuildRequestFormData,
   CreateInscricaoResponse,
 } from '../../types/services/inscricao.types';
-
-interface InscricaoFormData {
-  bairro: string;
-  cep: string;
-  cidade: string;
-  complemento: string | null;
-  cpf: string;
-  curso: string;
-  dataInscricao: string;
-  dataNascimento: string;
-  escola: string;
-  estado: string;
-  foto: File | null;
-  genero: string;
-  idEscola: number;
-  logradouro: string;
-  nome: string;
-  numero: string;
-  observacoes: string;
-  periodo: string;
-  ra: string;
-  serie: string;
-  telAdolescente: string;
-  telExtra: string;
-  telResponsavel: string;
-}
 
 const handleError = (error: unknown, fallback: string): ServiceError => {
   if (axios.isAxiosError<ErrorResponse>(error)) {
@@ -71,7 +46,7 @@ const buildRequestForm = (data: InscricaoFormData): BuildRequestFormData => ({
     estado: data.estado,
   },
   escolaridade: {
-    idEscola: data.idEscola,
+    idEscola: Number(data.idEscola),
     serie: data.serie,
     periodo: data.periodo,
     raEscolar: data.ra,

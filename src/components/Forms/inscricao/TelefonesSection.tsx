@@ -1,7 +1,9 @@
 import { Controller } from 'react-hook-form';
 import { Input } from '../../Input';
 
-const TelefonesSection = ({ control, errors }) => {
+import type { ControlErrorsProps } from './types';
+
+const TelefonesSection = ({ control, errors }: ControlErrorsProps) => {
   return (
     <>
       <h2 className="text-lg font-semibold text-text-primary border-b border-border pb-2 mt-8 mb-4">

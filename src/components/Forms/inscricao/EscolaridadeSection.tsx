@@ -4,8 +4,11 @@ import escolaServices from '../../../services/escolas';
 import alert from '../../../utils/alert';
 import { Input, Select } from '../../Input';
 
-const EscolaridadeSection = ({ control, errors }) => {
-  const [escolas, setEscolas] = useState([]);
+import type { ControlErrorsProps } from './types';
+import type { EscolaListItem } from '../../../types/api/escolas.types';
+
+const EscolaridadeSection = ({ control, errors }: ControlErrorsProps) => {
+  const [escolas, setEscolas] = useState<EscolaListItem[] | []>([]);
   const [loading, setLoading] = useState(true);
 
   const series = [
@@ -21,7 +24,7 @@ const EscolaridadeSection = ({ control, errors }) => {
   useEffect(() => {
     const fetchAllEscolas = async () => {
       try {
-        let allEscolas = [];
+        let allEscolas: EscolaListItem[] = [];
         let currentPage = 0;
         let hasMore = true;
 

@@ -2,12 +2,14 @@ import { Controller } from 'react-hook-form';
 import Button from '../../Button';
 import { Input } from '../../Input';
 
+import type { EnderecoSectionProps } from './types';
+
 const EnderecoSection = ({
   control,
   errors,
   getValues,
   handleCep,
-}) => {
+}: EnderecoSectionProps) => {
   return (
     <>
       <h2 className="text-lg font-semibold text-text-primary border-b border-border pb-2 mt-8 mb-4">
@@ -86,6 +88,7 @@ const EnderecoSection = ({
                 label="Complemento"
                 error={errors.complemento?.message}
                 {...field}
+                value={field.value ?? ''}
               />
             )}
           />
