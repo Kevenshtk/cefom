@@ -13,6 +13,7 @@ import type {
 import type { EscolaEdereco, EscolaApiList, EscolaApiDetails } from '../../types/api/escolas.types';
 
 export interface EscolaFormData {
+  data?: string;
   nome: string;
   tipo: string;
   cep: string;
@@ -61,7 +62,7 @@ const getEscolas = async (pageCurrent: number): Promise<EscolaListResponse> => {
   }
 };
 
-const getEscolaById = async (id: number): Promise<EscolaDetailsResponse> => {
+const getEscolaById = async (id: string): Promise<EscolaDetailsResponse> => {
   try {
     const response = await api.get<EscolaApiDetails>(`/escolas/${id}`);
     return { success: true, data: response.data };
@@ -86,7 +87,7 @@ const addEscola = async (data: EscolaFormData): Promise<CreateEscolaResponse> =>
   }
 };
 
-const putEscola = async (id: number, data: EscolaFormData): Promise<UpdateEscolaResponse> => {
+const putEscola = async (id: string, data: EscolaFormData): Promise<UpdateEscolaResponse> => {
   try {
     const payload: CreateEscolaRequest = {
       nome: data.nome,

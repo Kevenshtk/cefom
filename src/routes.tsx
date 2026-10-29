@@ -1,20 +1,20 @@
 import { Routes, Route } from 'react-router-dom';
 
-import Inscricao from './pages/inscricao';
-import Territorios from './pages/territorios/home';
-import Escolas from './pages/escolas/home';
+import Inscricao from './pages/inscricao/index.tsx';
+import Territorios from './pages/territorios/home/index.tsx';
+import Escolas from './pages/escolas/home/index.tsx';
 
-import CadastroTerritorio from './pages/territorios/cadastrar';
-import CadastroEscola from './pages/escolas/cadastrar';
+import CadastroTerritorio from './pages/territorios/cadastrar/index.tsx';
+import CadastroEscola from './pages/escolas/cadastrar/index.tsx';
 
-import DetalhesTerritorio from './pages/territorios/detalhes';
-import DetalhesEscola from './pages/escolas/detalhes';
+import DetalhesTerritorio from './pages/territorios/detalhes/index.tsx';
+import DetalhesEscola from './pages/escolas/detalhes/index.tsx';
 
 import {
   AtualizarTerritorio,
   AtualizarBairros,
-} from './pages/territorios/atualizar';
-import AtualizarEscola from './pages/escolas/atualizar';
+} from './pages/territorios/atualizar/index.tsx';
+import AtualizarEscola from './pages/escolas/atualizar/index.tsx';
 
 const MainRoutes = () => {
   return (

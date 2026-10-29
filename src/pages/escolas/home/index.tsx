@@ -8,11 +8,13 @@ import ListPageLayout from '../../../components/ListPageLayout';
 import DataTable from '../../../components/DataTable';
 import Pagination from '../../../components/Pagination';
 
+import type { EscolaListItem } from "../../../types/api/escolas.types"
+
 const Escolas = () => {
   const { items, remove, page, setPage, totalPages } =
     useEscolasContext();
 
-  const handleDelItem = async (id) => {
+  const handleDelItem = async (id: number) => {
     const result = await alert.delete();
 
     if (result) remove(id);
@@ -20,7 +22,7 @@ const Escolas = () => {
 
   return (
     <ListPageLayout title="Lista de Escolas" createLink="/escolas/cadastro">
-      <DataTable
+      <DataTable<EscolaListItem>
         data={items}
         columns={[
           { header: 'ID', accessor: 'idEscola' },
@@ -50,6 +52,7 @@ const Escolas = () => {
             </button>
           </div>
         )}
+        keyField="idEscola"
       />
 
       <Pagination page={page} totalPages={totalPages} setPage={setPage} />

@@ -5,6 +5,8 @@ import { useEscolasContext } from '../../../hooks/useEscolasContext';
 import { useCep } from '../../../hooks/useCep';
 import Button from '../../../components/Button';
 
+import type { EscolaFormData } from '../../../services/escolas/index'
+
 const CadastroEscola = () => {
   const {
     control,
@@ -13,13 +15,13 @@ const CadastroEscola = () => {
     getValues,
     setValue,
     formState: { isSubmitting, errors },
-  } = useForm();
+  } = useForm<EscolaFormData>();
 
   const { add } = useEscolasContext();
 
   const { getCep } = useCep();
 
-  const handleCep = async (cep) => {
+  const handleCep = async (cep: string) => {
     const result = await getCep(cep);
 
     if (result) {
@@ -32,8 +34,8 @@ const CadastroEscola = () => {
     }
   };
 
-  const onSubmit = async (datas) => {
-    const result = await add(datas);
+  const onSubmit = async (data: EscolaFormData) => {
+    const result = await add(data);
 
     if (result) reset();
   };
@@ -175,7 +177,7 @@ const CadastroEscola = () => {
                 defaultValue=""
                 render={({ field }) => (
                   <>
-                    <input className={inputClass} id="complemento" type="text" {...field} />
+                    <input className={inputClass} id="complemento" type="text" {...field} value={field.value ?? ''}/>
                     {errors.complemento && <span className={errorClass}>{errors.complemento.message}</span>}
                   </>
                 )}

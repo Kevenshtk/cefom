@@ -48,7 +48,7 @@ const AtualizarTerritorio = () => {
 
     if (result.isConfirmed) {
       if (!id) {
-        alert.error('Erro ao atualizar territórios, tente mais tarde!');
+        alert.error('Erro ao atualizar território, tente mais tarde!');
         navigate('/territorios');
         return;
       }
