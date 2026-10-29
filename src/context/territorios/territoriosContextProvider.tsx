@@ -14,16 +14,16 @@ import type { TerritorioFormData } from '../../services/territorios';
 export const TerritoriosContextProvider = ({ children }: ProviderProps) => {
   const crud = useCrud<TerritorioListItem, TerritorioApiDetails, TerritorioFormData>(territorioServices);
 
-  const adicionarBairro = async (id: number, bairro: string): Promise<void> => {
-    await crud.handleAction(
+  const adicionarBairro = async (id: string, bairro: string): Promise<boolean> => {
+    return await crud.handleAction(
       () => territorioServices.addBairro(id, bairro),
       'Bairro adicionado com sucesso!',
       () => crud.getById(id)
     );
   };
 
-  const deletarBairro = async (id: number, bairro: string): Promise<void> => {
-    crud.handleAction(
+  const deletarBairro = async (id: string, bairro: string): Promise<boolean> => {
+    return await crud.handleAction(
       () => territorioServices.delBairro(id, bairro),
       'Bairro removido com sucesso!',
       () => crud.getById(id)

@@ -1,3 +1,4 @@
+import type { Dispatch, SetStateAction } from 'react';
 import type { ServiceResponseWithoutData } from './global.types';
 
 export interface EscolasContextType<TItems, TItem, TFormData> {
@@ -5,11 +6,11 @@ export interface EscolasContextType<TItems, TItem, TFormData> {
   item: TItem | null;
   page: number;
   totalPages: number;
-  setPage: (page: number) => void;
+  setPage: Dispatch<SetStateAction<number>>;
   load: (pageCurrent: number) => Promise<void>;
-  getById: (id: number) => Promise<void>;
+  getById: (id: string) => Promise<void>;
   add: (data: TFormData) => Promise<boolean>;
-  update: (id: number, data: TFormData) => Promise<boolean>;
+  update: (id: string, data: TFormData) => Promise<boolean>;
   remove: (id: number) => Promise<boolean>;
   handleAction: (
     action: () => Promise<ServiceResponseWithoutData>,

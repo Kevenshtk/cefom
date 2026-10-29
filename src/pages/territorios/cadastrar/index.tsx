@@ -4,18 +4,20 @@ import { useForm, Controller } from 'react-hook-form';
 import { useTerritoriosContext } from '../../../hooks/useTerritoriosContext';
 import Button from '../../../components/Button';
 
+import type { TerritorioFormData } from '../../../services/territorios/index'
+
 const CadastroTerritorio = () => {
   const {
     control,
     handleSubmit,
     reset,
     formState: { isSubmitting, errors },
-  } = useForm();
+  } = useForm<TerritorioFormData>();
 
   const { add } = useTerritoriosContext();
 
-  const onSubmit = async (data) => {
-    const result = await add(data.nome);
+  const onSubmit = async (data: TerritorioFormData) => {
+    const result = await add(data);
 
     if (result) reset();
   };

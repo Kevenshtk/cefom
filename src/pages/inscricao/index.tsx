@@ -13,6 +13,8 @@ import { useCep } from '../../hooks/useCep';
 import { useCpf } from '../../hooks/useCpf';
 import alert from '../../utils/alert';
 
+import type { InscricaoFormData } from '../../components/Forms/inscricao/types';
+
 const Inscricao = () => {
   const defaultValues = {
     cpf: '',
@@ -45,12 +47,12 @@ const Inscricao = () => {
     getValues,
     setValue,
     formState: { isSubmitting, errors },
-  } = useForm({ defaultValues });
+  } = useForm<InscricaoFormData>({ defaultValues });
 
   const { getCep } = useCep();
   const { getCpf, loading } = useCpf();
 
-  const handleCep = async (cep) => {
+  const handleCep = async (cep: string) => {
     const result = await getCep(cep);
 
     if (result) {
@@ -63,7 +65,7 @@ const Inscricao = () => {
     }
   };
 
-  const handleCpf = async (cpf) => {
+  const handleCpf = async (cpf: string) => {
     if (!cpf) {
       alert.error('Por favor, insira um CPF para buscar.');
       return;
@@ -87,6 +89,11 @@ const Inscricao = () => {
 
       const info = result.data;
 
+      if (!info) {
+        alert.error('Não foi possível obter os dados do CPF.');
+        return;
+      }
+
       reset({
         cpf: cpf,
         nome: info.adolescente.nome,
@@ -101,7 +108,7 @@ const Inscricao = () => {
         cidade: info.endereco.cidade,
         estado: info.endereco.estado,
 
-        idEscola: info.escolaridade.idEscola,
+        idEscola: String(info.escolaridade.idEscola),
         escola: info.escolaridade.escola,
         serie: info.escolaridade.serie,
         periodo: info.escolaridade.periodo,
@@ -115,7 +122,7 @@ const Inscricao = () => {
     }
   };
 
-  const onSubmit = async (data) => {
+  const onSubmit = async (data: InscricaoFormData) => {
     const result = await inscricaoService.add(data);
 
     if (!result.success) {

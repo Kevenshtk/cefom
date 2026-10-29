@@ -1,3 +1,4 @@
+import type { Dispatch, SetStateAction } from 'react';
 import type { ServiceResponseWithoutData } from './global.types';
 
 export interface TerritoriosContextType<TItems, TItem, TFormData> {
@@ -5,17 +6,17 @@ export interface TerritoriosContextType<TItems, TItem, TFormData> {
   item: TItem | null;
   page: number;
   totalPages: number;
-  setPage: (page: number) => void;
+  setPage: Dispatch<SetStateAction<number>>;
   load: (pageCurrent: number) => Promise<void>;
-  getById: (id: number) => Promise<void>;
+  getById: (id: string) => Promise<void>;
   add: (data: TFormData) => Promise<boolean>;
-  update: (id: number, data: TFormData) => Promise<boolean>;
+  update: (id: string, data: TFormData) => Promise<boolean>;
   remove: (id: number) => Promise<boolean>;
   handleAction: (
     action: () => Promise<ServiceResponseWithoutData>,
     msg: string,
     onSuccess?: (page: number) => Promise<void>
   ) => Promise<boolean>;
-  adicionarBairro: (id: number, bairro: string) => Promise<void>;
-  deletarBairro: (id: number, bairro: string) => Promise<void>;
+  adicionarBairro: (id: string, bairro: string) => Promise<boolean>;
+  deletarBairro: (id: string, bairro: string) => Promise<boolean>;
 }

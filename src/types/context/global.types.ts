@@ -14,8 +14,8 @@ interface PageResponse<T> {
 
 export interface CrudService<TItems, TItem, TFormData> {
   get: (pageCurrent: number) => Promise<ServiceResponse<PageResponse<TItems>>>;
-  getById: (id: number) => Promise<ServiceResponse<TItem>>;
+  getById: (id: string) => Promise<ServiceResponse<TItem>>;
   add: (data: TFormData) => Promise<ServiceResponseWithoutData>;
-  put: (id: number, data: TFormData) => Promise<ServiceResponseWithoutData>;
+  put: (id: string, data: TFormData) => Promise<ServiceResponseWithoutData>;
   del: (id: number) => Promise<ServiceResponseWithoutData>;
 }

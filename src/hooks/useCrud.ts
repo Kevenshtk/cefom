@@ -30,7 +30,7 @@ export const useCrud = <TItems, TItem, TFormData>(
     [service]
   );
 
-  const getById = async (id: number) => {
+  const getById = async (id: string) => {
     const result = await service.getById(id);
 
     if (result.success) {
@@ -65,7 +65,7 @@ export const useCrud = <TItems, TItem, TFormData>(
     );
   };
 
-  const update = (id: number, data: TFormData) => {
+  const update = (id: string, data: TFormData) => {
     return handleAction(
       () => service.put(id, data),
       'Atualização realizada com sucesso',

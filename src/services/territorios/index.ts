@@ -16,6 +16,7 @@ import type {
 } from '../../types/services/territorios.types';
 
 export interface TerritorioFormData {
+  data?: string;
   nome: string;
 }
 
@@ -49,7 +50,7 @@ const getTerritorios = async (
 };
 
 const getTerritorioById = async (
-  id: number
+  id: string
 ): Promise<TerritorioDetailsResponse> => {
   try {
     const response = await api.get<TerritorioApiDetails>(`/territorios/${id}`);
@@ -64,7 +65,7 @@ const addTerritorio = async (
 ): Promise<CreateTerritorioResponse> => {
   try {
     await api.post<TerritorioApiDetails>('/territorios', {
-      territorio: data,
+      territorio: data.nome,
     });
 
     return { success: true };
@@ -74,12 +75,12 @@ const addTerritorio = async (
 };
 
 const putTerritorio = async (
-  id: number,
+  id: string,
   data: TerritorioFormData
 ): Promise<UpdateTerritorioResponse> => {
   try {
     await api.put(`/territorios/${id}`, {
-      territorio: data,
+      territorio: data.nome,
     });
 
     return { success: true };
@@ -101,7 +102,7 @@ const deleteTerritorio = async (
 };
 
 const updateBairro = async (
-  id: number,
+  id: string,
   bairros: string[]
 ): Promise<UpdateBairroResponse> => {
   try {
@@ -116,7 +117,7 @@ const updateBairro = async (
 };
 
 const addBairro = async (
-  idTerritorio: number,
+  idTerritorio: string,
   data: string
 ): Promise<UpdateBairroResponse> => {
   const territorio = await getTerritorioById(idTerritorio);
@@ -130,7 +131,7 @@ const addBairro = async (
 };
 
 const deleteBairro = async (
-  idTerritorio: number,
+  idTerritorio: string,
   data: string
 ): Promise<UpdateBairroResponse> => {
   const territorio = await getTerritorioById(idTerritorio);

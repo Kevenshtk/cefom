@@ -8,11 +8,13 @@ import ListPageLayout from '../../../components/ListPageLayout';
 import DataTable from '../../../components/DataTable';
 import Pagination from '../../../components/Pagination';
 
+import type { TerritorioListItem } from "../../../types/api/territorios.types"
+
 const Territorios = () => {
   const { items, remove, page, setPage, totalPages } =
     useTerritoriosContext();
 
-  const handleDelItem = async (id) => {
+  const handleDelItem = async (id: number) => {
     const result = await alert.delete();
 
     if (result) remove(id);
@@ -23,7 +25,7 @@ const Territorios = () => {
       title="Lista de Territórios"
       createLink="/territorios/cadastro"
     >
-      <DataTable
+      <DataTable<TerritorioListItem>
         data={items}
         columns={[
           { header: 'ID', accessor: 'idTerritorio' },
@@ -53,6 +55,7 @@ const Territorios = () => {
             </button>
           </div>
         )}
+        keyField="idTerritorio"
       />
 
       <Pagination page={page} totalPages={totalPages} setPage={setPage} />
