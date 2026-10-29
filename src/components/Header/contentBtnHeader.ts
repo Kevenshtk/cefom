@@ -1,7 +1,7 @@
-type DropdownItem = {
+export interface DropdownItem {
   text: string;
   url: string;
-};
+}
 
 type ContentBtn = {
   text: string;
@@ -52,4 +52,3 @@ const contentBtn: ContentBtn[] = [
 ];
 
 export { contentBtn };
-export type { DropdownItem };

@@ -1,0 +1,66 @@
+import { Link } from 'react-router-dom';
+
+import { useTerritoriosContext } from '../../../hooks/useTerritoriosContext';
+
+import alert from '../../../utils/alert';
+
+import ListPageLayout from '../../../components/ListPageLayout';
+import DataTable from '../../../components/DataTable';
+import Pagination from '../../../components/Pagination';
+
+import type { TerritorioListItem } from "../../../types/api/territorios.types"
+
+const Territorios = () => {
+  const { items, remove, page, setPage, totalPages } =
+    useTerritoriosContext();
+
+  const handleDelItem = async (id: number) => {
+    const result = await alert.delete();
+
+    if (result) remove(id);
+  };
+
+  return (
+    <ListPageLayout
+      title="Lista de Territórios"
+      createLink="/territorios/cadastro"
+    >
+      <DataTable<TerritorioListItem>
+        data={items}
+        columns={[
+          { header: 'ID', accessor: 'idTerritorio' },
+          { header: 'Nome', accessor: 'territorio' },
+        ]}
+        renderActions={(item) => (
+          <div className="flex items-center justify-end gap-3">
+            <Link 
+              to={`/territorios/detalhes/${item.idTerritorio}`}
+              className="text-primary hover:underline font-medium transition-colors text-sm"
+            >
+              Detalhes
+            </Link>
+
+            <Link 
+              to={`/territorios/atualizar/${item.idTerritorio}`}
+              className="text-text-secondary hover:text-text-primary transition-colors text-sm"
+            >
+              Editar
+            </Link>
+
+            <button 
+              onClick={() => handleDelItem(item.idTerritorio)}
+              className="text-red-500 hover:text-red-700 transition-colors text-sm font-medium"
+            >
+              Deletar
+            </button>
+          </div>
+        )}
+        keyField="idTerritorio"
+      />
+
+      <Pagination page={page} totalPages={totalPages} setPage={setPage} />
+    </ListPageLayout>
+  );
+};
+
+export default Territorios;
