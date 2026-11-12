@@ -35,7 +35,7 @@ const handleError = (error: unknown, fallback: string): ServiceError => {
 };
 
 const getTerritorios = async (
-  pageCurrent: number
+  pageCurrent?: number
 ): Promise<TerritorioListResponse> => {
   try {
     const response = await api.get<TerritorioApiList>('/territorios', {
@@ -152,6 +152,7 @@ const territorioServices = {
   del: deleteTerritorio,
   addBairro: addBairro,
   delBairro: deleteBairro,
+  putBairros: updateBairro
 };
 
 export default territorioServices;
